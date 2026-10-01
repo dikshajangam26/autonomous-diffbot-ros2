@@ -1,0 +1,5 @@
+# Gazebo publishes simulated time on /clock only 10 times per second by default.
+# The EKF needs finer timestamps, so raise it.
+gazebo:
+  ros__parameters:
+    publish_rate: 100.0

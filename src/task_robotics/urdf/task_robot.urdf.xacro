@@ -300,4 +300,20 @@
     </plugin>
   </gazebo>
 
+  <!-- ===== GROUND TRUTH (testing only!) =====
+       Gazebo reports where the robot REALLY is, so we can measure how good odometry and the EKF
+       are. The robot's software must never use this topic. -->
+  <gazebo>
+    <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+      <ros>
+        <namespace>/</namespace>
+        <remapping>odom:=ground_truth/odom</remapping>
+      </ros>
+      <frame_name>world</frame_name>
+      <body_name>base_link</body_name>
+      <update_rate>50</update_rate>
+      <gaussian_noise>0.0</gaussian_noise>
+    </plugin>
+  </gazebo>
+
 </robot>

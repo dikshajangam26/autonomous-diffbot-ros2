@@ -25,6 +25,9 @@
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>rviz2</exec_depend>
 
+  <!-- Phase 2, Task 5: sensor fusion -->
+  <exec_depend>robot_localization</exec_depend>
+
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>

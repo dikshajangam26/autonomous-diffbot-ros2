@@ -137,19 +137,20 @@ class OdomCalculator(Node):
 
         # Covariance = how much we doubt each number (6x6 matrix, row-major).
         # Order: x, y, z, roll, pitch, yaw. Big number = "don't trust this".
-        # These are starting guesses; we tune them in Phase 2 (EKF).
+        # Forward motion is trusted (small numbers); rotation is NOT (0.5), because wheel slip
+        # makes wheel-based turning inaccurate. The EKF (Phase 2, Task 5) relies on these.
         odom.pose.covariance[0] = 0.001      # x
         odom.pose.covariance[7] = 0.001      # y
         odom.pose.covariance[14] = 1e6       # z      (robot is flat)
         odom.pose.covariance[21] = 1e6       # roll
         odom.pose.covariance[28] = 1e6       # pitch
-        odom.pose.covariance[35] = 0.01      # yaw
+        odom.pose.covariance[35] = 0.5       # yaw  (wheels exaggerate turns when they slip: low trust)
         odom.twist.covariance[0] = 0.001     # vx
         odom.twist.covariance[7] = 1e6       # vy  (diff drive can't slide sideways)
         odom.twist.covariance[14] = 1e6
         odom.twist.covariance[21] = 1e6
         odom.twist.covariance[28] = 1e6
-        odom.twist.covariance[35] = 0.01     # yaw rate
+        odom.twist.covariance[35] = 0.5      # yaw rate (same reason; the EKF uses the IMU gyro instead)
 
         self.odom_pub.publish(odom)
 
@@ -182,4 +183,3 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-    
