@@ -1,11 +1,9 @@
 package.xml
 setup.cfg
 setup.py
-launch/display.launch.py
 launch/sensors_sim.launch.py
 resource/task_robotics
 rviz/sensors.rviz
-rviz/sensors.rviz:Zone.Identifier
 task_robotics/__init__.py
 task_robotics/odom_calculator.py
 task_robotics/sensor_check.py
@@ -18,4 +16,3 @@ task_robotics.egg-info/requires.txt
 task_robotics.egg-info/top_level.txt
 task_robotics.egg-info/zip-safe
 urdf/task_robot.urdf.xacro
-urdf/task_robot.urdf.xacro:Zone.Identifier

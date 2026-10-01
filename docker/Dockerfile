@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ros-humble-robot-state-publisher \
         ros-humble-joint-state-publisher-gui \
         ros-humble-tf2-tools \
+        ros-humble-teleop-twist-keyboard \
     && rm -rf /var/lib/apt/lists/*
 
 # A normal (non-root) user whose ID matches your Ubuntu user (usually 1000),
