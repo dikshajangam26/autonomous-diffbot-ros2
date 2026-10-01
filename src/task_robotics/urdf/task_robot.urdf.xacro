@@ -1,0 +1,280 @@
+<?xml version="1.0"?>
+<!--
+  Task_Robotics warehouse robot (differential drive) with sensor payload.
+
+  TF tree (every sensor frame hangs off base_link):
+    base_link
+     |- left_wheel, right_wheel, caster_front, caster_rear
+     |- imu_link
+     |- lidar_link
+     |- stereo_link
+         |- stereo_left_link  -> stereo_left_optical_frame
+         |- stereo_right_link -> stereo_right_optical_frame
+
+  base_link is the ROOT of this tree on purpose: odom_calculator (and later the EKF)
+  publishes odom -> base_link, and a frame can only have ONE parent in TF.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="task_robot">
+
+  <!-- ===== Numbers (meters / kg). wheel_radius and wheel_base match odom_calculator ===== -->
+  <xacro:property name="wheel_radius" value="0.065"/>
+  <xacro:property name="wheel_width"  value="0.03"/>
+  <xacro:property name="wheel_base"   value="0.21"/>
+  <xacro:property name="chassis_x"    value="0.26"/>
+  <xacro:property name="chassis_y"    value="0.16"/>
+  <xacro:property name="chassis_z"    value="0.08"/>
+  <xacro:property name="chassis_zoff" value="0.02"/>
+  <xacro:property name="caster_r"     value="0.025"/>
+  <xacro:property name="stereo_baseline" value="0.12"/>
+  <xacro:property name="cam_width"    value="640"/>
+  <xacro:property name="cam_height"   value="480"/>
+  <xacro:property name="cam_rate"     value="10"/>
+
+  <material name="grey"><color rgba="0.6 0.6 0.65 1"/></material>
+  <material name="black"><color rgba="0.1 0.1 0.1 1"/></material>
+  <material name="blue"><color rgba="0.1 0.3 0.8 1"/></material>
+  <material name="red"><color rgba="0.8 0.1 0.1 1"/></material>
+
+  <!-- ===== Helpers for mass/inertia (Gazebo needs these) ===== -->
+  <xacro:macro name="box_inertial" params="m x y z">
+    <inertial>
+      <mass value="${m}"/>
+      <inertia ixx="${m/12*(y*y+z*z)}" ixy="0" ixz="0" iyy="${m/12*(x*x+z*z)}" iyz="0" izz="${m/12*(x*x+y*y)}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- ===== Chassis ===== -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${chassis_zoff}"/>
+      <geometry><box size="${chassis_x} ${chassis_y} ${chassis_z}"/></geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${chassis_zoff}"/>
+      <geometry><box size="${chassis_x} ${chassis_y} ${chassis_z}"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 ${chassis_zoff}"/>
+      <mass value="2.0"/>
+      <inertia ixx="${2.0/12*(chassis_y*chassis_y+chassis_z*chassis_z)}" ixy="0" ixz="0"
+               iyy="${2.0/12*(chassis_x*chassis_x+chassis_z*chassis_z)}" iyz="0"
+               izz="${2.0/12*(chassis_x*chassis_x+chassis_y*chassis_y)}"/>
+    </inertial>
+  </link>
+
+  <!-- ===== Drive wheels ===== -->
+  <xacro:macro name="wheel" params="name y">
+    <link name="${name}_wheel">
+      <visual>
+        <origin rpy="${pi/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+        <material name="black"/>
+      </visual>
+      <collision>
+        <origin rpy="${pi/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+      </collision>
+      <inertial>
+        <mass value="0.3"/>
+        <inertia ixx="${0.3/12*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)}" ixy="0" ixz="0"
+                 iyy="${0.3*wheel_radius*wheel_radius/2}" iyz="0"
+                 izz="${0.3/12*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)}"/>
+      </inertial>
+    </link>
+    <joint name="${name}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${name}_wheel"/>
+      <origin xyz="0 ${y} 0"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+    <gazebo reference="${name}_wheel">
+      <mu1>1.0</mu1><mu2>1.0</mu2>
+    </gazebo>
+  </xacro:macro>
+  <xacro:wheel name="left"  y="${wheel_base/2}"/>
+  <xacro:wheel name="right" y="${-wheel_base/2}"/>
+
+  <!-- ===== Passive casters (front and rear) so the robot stands on 4 points ===== -->
+  <xacro:macro name="caster" params="name x">
+    <link name="${name}">
+      <visual><geometry><sphere radius="${caster_r}"/></geometry><material name="grey"/></visual>
+      <collision><geometry><sphere radius="${caster_r}"/></geometry></collision>
+      <inertial>
+        <mass value="0.05"/>
+        <inertia ixx="${0.4*0.05*caster_r*caster_r}" ixy="0" ixz="0" iyy="${0.4*0.05*caster_r*caster_r}" iyz="0" izz="${0.4*0.05*caster_r*caster_r}"/>
+      </inertial>
+    </link>
+    <joint name="${name}_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="${name}"/>
+      <origin xyz="${x} 0 ${caster_r - wheel_radius}"/>
+    </joint>
+    <gazebo reference="${name}">
+      <mu1>0.01</mu1><mu2>0.01</mu2>
+    </gazebo>
+  </xacro:macro>
+  <xacro:caster name="caster_front" x="0.10"/>
+  <xacro:caster name="caster_rear"  x="-0.10"/>
+
+  <!-- ===== IMU (inside the chassis) ===== -->
+  <link name="imu_link">
+    <visual><geometry><box size="0.02 0.02 0.01"/></geometry><material name="red"/></visual>
+    <xacro:box_inertial m="0.02" x="0.02" y="0.02" z="0.01"/>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0.03"/>
+  </joint>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>false</visualize>
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0002</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0002</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0002</stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>0.017</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>0.017</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>0.017</stddev></noise></z>
+        </linear_acceleration>
+      </imu>
+      <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <ros>
+          <namespace>/imu</namespace>
+          <remapping>~/out:=data</remapping>
+        </ros>
+        <frame_name>imu_link</frame_name>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- ===== 2D LiDAR (on top) ===== -->
+  <link name="lidar_link">
+    <visual><geometry><cylinder radius="0.035" length="0.05"/></geometry><material name="black"/></visual>
+    <collision><geometry><cylinder radius="0.035" length="0.05"/></geometry></collision>
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="0.05 0 0.085"/>
+  </joint>
+
+  <gazebo reference="lidar_link">
+    <sensor name="lidar_sensor" type="ray">
+      <always_on>true</always_on>
+      <update_rate>10</update_rate>
+      <visualize>false</visualize>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.12</min>
+          <max>10.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="lidar_plugin" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <namespace>/</namespace>
+          <remapping>~/out:=scan</remapping>
+        </ros>
+        <output_type>sensor_msgs/LaserScan</output_type>
+        <frame_name>lidar_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- ===== Stereo camera (front): two cameras side by side ===== -->
+  <link name="stereo_link">
+    <visual><geometry><box size="0.02 0.14 0.03"/></geometry><material name="grey"/></visual>
+    <xacro:box_inertial m="0.1" x="0.02" y="0.14" z="0.03"/>
+  </link>
+  <joint name="stereo_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="stereo_link"/>
+    <origin xyz="0.125 0 0.04"/>
+  </joint>
+
+  <!-- Each camera has 2 frames: *_link (x forward, how Gazebo looks) and
+       *_optical_frame (z forward, x right, y down - the ROS image convention).
+       Images are stamped with the OPTICAL frame. -->
+  <xacro:macro name="stereo_cam" params="side y baseline">
+    <link name="stereo_${side}_link">
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="stereo_${side}_joint" type="fixed">
+      <parent link="stereo_link"/>
+      <child link="stereo_${side}_link"/>
+      <origin xyz="0 ${y} 0"/>
+    </joint>
+    <link name="stereo_${side}_optical_frame"/>
+    <joint name="stereo_${side}_optical_joint" type="fixed">
+      <parent link="stereo_${side}_link"/>
+      <child link="stereo_${side}_optical_frame"/>
+      <origin rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+
+    <gazebo reference="stereo_${side}_link">
+      <sensor name="stereo_${side}_sensor" type="camera">
+        <always_on>true</always_on>
+        <update_rate>${cam_rate}</update_rate>
+        <visualize>false</visualize>
+        <camera>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>${cam_width}</width>
+            <height>${cam_height}</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip><near>0.05</near><far>20.0</far></clip>
+          <noise><type>gaussian</type><mean>0.0</mean><stddev>0.007</stddev></noise>
+        </camera>
+        <plugin name="stereo_${side}_plugin" filename="libgazebo_ros_camera.so">
+          <ros><namespace>/stereo</namespace></ros>
+          <camera_name>${side}</camera_name>
+          <frame_name>stereo_${side}_optical_frame</frame_name>
+          <hack_baseline>${baseline}</hack_baseline>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+  <xacro:stereo_cam side="left"  y="${stereo_baseline/2}"  baseline="0.0"/>
+  <xacro:stereo_cam side="right" y="${-stereo_baseline/2}" baseline="${stereo_baseline}"/>
+
+  <!-- ===== Publish wheel joint angles so TF has wheel frames ===== -->
+  <gazebo>
+    <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+      <ros><remapping>~/out:=joint_states</remapping></ros>
+      <update_rate>30</update_rate>
+      <joint_name>left_wheel_joint</joint_name>
+      <joint_name>right_wheel_joint</joint_name>
+    </plugin>
+  </gazebo>
+
+</robot>

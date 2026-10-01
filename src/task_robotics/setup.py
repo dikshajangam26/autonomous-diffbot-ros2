@@ -1,3 +1,6 @@
+import os
+from glob import glob
+
 from setuptools import find_packages, setup
 
 package_name = 'task_robotics'
@@ -9,6 +12,9 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
+        (os.path.join('share', package_name, 'urdf'), glob('urdf/*')),
+        (os.path.join('share', package_name, 'rviz'), glob('rviz/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -21,6 +27,7 @@ setup(
         'console_scripts': [
             'wheel_tick_pub = task_robotics.wheel_tick_pub:main',
             'odom_calculator = task_robotics.odom_calculator:main',
+            'sensor_check = task_robotics.sensor_check:main',
         ],
     },
 )

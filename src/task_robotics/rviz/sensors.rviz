@@ -1,0 +1,61 @@
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: RobotModel
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+      Show Names: true
+    - Class: rviz_default_plugins/LaserScan
+      Name: LaserScan
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /scan
+      Size (m): 0.05
+      Style: Flat Squares
+      Color Transformer: FlatColor
+      Color: 255; 0; 0
+    - Class: rviz_default_plugins/Image
+      Name: Left camera
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /stereo/left/image_raw
+  Enabled: true
+  Global Options:
+    Fixed Frame: base_link
+    Frame Rate: 30
+  Name: root
+  Tools: []
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 1.2
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Pitch: 0.6
+      Yaw: 0.8
+Window Geometry:
+  Left camera:
+    collapsed: false
