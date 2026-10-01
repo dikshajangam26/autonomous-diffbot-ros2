@@ -1,0 +1,25 @@
+[0.728s] Invoking command in '/home/diksha/diffbot/src/task_robotics': PYTHONPATH=/home/diksha/diffbot/build/task_robotics/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/task_robotics build --build-base /home/diksha/diffbot/build/task_robotics/build install --record /home/diksha/diffbot/build/task_robotics/install.log --install-scripts $base/lib/task_robotics --single-version-externally-managed install_data
+[0.970s] running egg_info
+[0.971s] writing ../../build/task_robotics/task_robotics.egg-info/PKG-INFO
+[0.971s] writing dependency_links to ../../build/task_robotics/task_robotics.egg-info/dependency_links.txt
+[0.972s] writing entry points to ../../build/task_robotics/task_robotics.egg-info/entry_points.txt
+[0.972s] writing requirements to ../../build/task_robotics/task_robotics.egg-info/requires.txt
+[0.972s] writing top-level names to ../../build/task_robotics/task_robotics.egg-info/top_level.txt
+[0.973s] reading manifest file '../../build/task_robotics/task_robotics.egg-info/SOURCES.txt'
+[0.974s] writing manifest file '../../build/task_robotics/task_robotics.egg-info/SOURCES.txt'
+[0.974s] running build
+[0.975s] running build_py
+[0.975s] copying task_robotics/wheel_tick_pub.py -> /home/diksha/diffbot/build/task_robotics/build/lib/task_robotics
+[0.975s] running install
+[0.975s] running install_lib
+[0.976s] copying /home/diksha/diffbot/build/task_robotics/build/lib/task_robotics/wheel_tick_pub.py -> /home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics
+[0.976s] byte-compiling /home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics/wheel_tick_pub.py to wheel_tick_pub.cpython-310.pyc
+[0.978s] running install_data
+[0.978s] copying package.xml -> /home/diksha/diffbot/install/task_robotics/share/task_robotics
+[0.978s] running install_egg_info
+[0.979s] removing '/home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics-0.0.1-py3.10.egg-info' (and everything under it)
+[0.980s] Copying ../../build/task_robotics/task_robotics.egg-info to /home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics-0.0.1-py3.10.egg-info
+[0.982s] running install_scripts
+[1.002s] Installing wheel_tick_pub script to /home/diksha/diffbot/install/task_robotics/lib/task_robotics
+[1.003s] writing list of installed files to '/home/diksha/diffbot/build/task_robotics/install.log'
+[1.030s] Invoked command in '/home/diksha/diffbot/src/task_robotics' returned '0': PYTHONPATH=/home/diksha/diffbot/build/task_robotics/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/task_robotics build --build-base /home/diksha/diffbot/build/task_robotics/build install --record /home/diksha/diffbot/build/task_robotics/install.log --install-scripts $base/lib/task_robotics --single-version-externally-managed install_data

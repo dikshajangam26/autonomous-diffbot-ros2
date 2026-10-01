@@ -1,0 +1,4 @@
+[console_scripts]
+odom_calculator = task_robotics.odom_calculator:main
+wheel_tick_pub = task_robotics.wheel_tick_pub:main
+

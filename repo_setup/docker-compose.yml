@@ -1,0 +1,30 @@
+# Day-to-day use:
+#   docker compose build            (first time only, slow)
+#   docker compose up -d            (start the container)
+#   docker compose exec ros bash    (open a terminal inside it - repeat for more terminals)
+#   docker compose down             (stop it)
+services:
+  ros:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        USER_UID: ${USER_UID:-1000}
+        USER_GID: ${USER_GID:-1000}
+    image: task_robotics:humble
+    container_name: task_robotics
+    stdin_open: true
+    tty: true
+    # Your project folder appears inside the container as /ws (edits are shared both ways)
+    volumes:
+      - .:/ws
+      - /tmp/.X11-unix:/tmp/.X11-unix      # lets RViz / Gazebo windows show up
+      - /mnt/wslg:/mnt/wslg                # Windows (WSLg) display support
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY:-wayland-0}
+      - XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
+      - PULSE_SERVER=/mnt/wslg/PulseServer
+      - QT_X11_NO_MITSHM=1
+      - LIBGL_ALWAYS_SOFTWARE=1            # works without a GPU; remove later if you set up GPU
+      - ROS_DOMAIN_ID=0

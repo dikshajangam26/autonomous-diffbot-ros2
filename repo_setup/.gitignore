@@ -1,0 +1,18 @@
+# ROS 2 / colcon build output (created by "colcon build" - never commit these)
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Local settings
+.env

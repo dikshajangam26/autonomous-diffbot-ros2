@@ -1,0 +1,35 @@
+running egg_info
+creating ../../build/task_robotics/task_robotics.egg-info
+writing ../../build/task_robotics/task_robotics.egg-info/PKG-INFO
+writing dependency_links to ../../build/task_robotics/task_robotics.egg-info/dependency_links.txt
+writing entry points to ../../build/task_robotics/task_robotics.egg-info/entry_points.txt
+writing requirements to ../../build/task_robotics/task_robotics.egg-info/requires.txt
+writing top-level names to ../../build/task_robotics/task_robotics.egg-info/top_level.txt
+writing manifest file '../../build/task_robotics/task_robotics.egg-info/SOURCES.txt'
+reading manifest file '../../build/task_robotics/task_robotics.egg-info/SOURCES.txt'
+writing manifest file '../../build/task_robotics/task_robotics.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/diksha/diffbot/build/task_robotics/build
+creating /home/diksha/diffbot/build/task_robotics/build/lib
+creating /home/diksha/diffbot/build/task_robotics/build/lib/task_robotics
+copying task_robotics/wheel_tick_pub.py -> /home/diksha/diffbot/build/task_robotics/build/lib/task_robotics
+copying task_robotics/__init__.py -> /home/diksha/diffbot/build/task_robotics/build/lib/task_robotics
+running install
+running install_lib
+creating /home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics
+copying /home/diksha/diffbot/build/task_robotics/build/lib/task_robotics/wheel_tick_pub.py -> /home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics
+copying /home/diksha/diffbot/build/task_robotics/build/lib/task_robotics/__init__.py -> /home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics
+byte-compiling /home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics/wheel_tick_pub.py to wheel_tick_pub.cpython-310.pyc
+byte-compiling /home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /home/diksha/diffbot/install/task_robotics/share/ament_index
+creating /home/diksha/diffbot/install/task_robotics/share/ament_index/resource_index
+creating /home/diksha/diffbot/install/task_robotics/share/ament_index/resource_index/packages
+copying resource/task_robotics -> /home/diksha/diffbot/install/task_robotics/share/ament_index/resource_index/packages
+copying package.xml -> /home/diksha/diffbot/install/task_robotics/share/task_robotics
+running install_egg_info
+Copying ../../build/task_robotics/task_robotics.egg-info to /home/diksha/diffbot/install/task_robotics/lib/python3.10/site-packages/task_robotics-0.0.1-py3.10.egg-info
+running install_scripts
+Installing wheel_tick_pub script to /home/diksha/diffbot/install/task_robotics/lib/task_robotics
+writing list of installed files to '/home/diksha/diffbot/build/task_robotics/install.log'
