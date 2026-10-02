@@ -1,0 +1,261 @@
+# Nav2 settings for the warehouse robot (ROS 2 Humble).
+#
+# Big picture (who talks to whom):
+#   slam_toolbox  -> /map                 (walls + rack faces seen by the LiDAR)   -> global costmap "static_layer"
+#   object_slam   -> map->odom, /semantic_map/landmarks
+#   semantic_costmap -> /semantic_costmap/obstacles (keep-out discs for racks, pallets, boxes, people)
+#   /scan         -> both costmaps ("obstacle_layer": live LiDAR hits, also clears them)
+#   planner_server (NavFn)   global path on the global costmap
+#   controller_server (DWB)  follows the path, avoids things using the local costmap
+#   bt_navigator             the behaviour tree: plan -> follow -> if stuck, recover
+#
+# THE ROBOT (from the URDF):  chassis 0.26 x 0.16 m, wheels reach out to y = +-0.12 m, base_link on the axle.
+#   footprint  = rectangle x +-0.13, y +-0.12   (inscribed radius 0.12 m, corner radius 0.18 m)
+#
+# TIGHT AISLES (from warehouse.world): the narrowest passable gap is the 0.65 m lane between a rack face
+# (x = 3.25) and the east wall (x = 3.90). A cell is "lethal" within 0.12 m of an obstacle, so the robot
+# centre may use the band 0.12 .. 0.53 m from each side: roughly +-8 cm of steering slack. That is why the
+# speed is low (0.25 m/s) and the inflation is not larger than ~0.45 m.
+# The gap behind rack 3 (0.25 m) is narrower than the robot, so the planner must refuse to go there.
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: True
+    global_frame: map
+    robot_base_frame: base_link
+    odom_topic: /odometry/filtered
+    bt_loop_duration: 10
+    default_server_timeout: 20
+    enable_groot_monitoring: False
+    # default_nav_to_pose_bt_xml and plugin_lib_names are filled in by nav2.launch.py
+    # (our tree: behavior_trees/warehouse_nav.xml)
+
+controller_server:
+  ros__parameters:
+    use_sim_time: True
+    controller_frequency: 20.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.5
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3
+    odom_topic: /odometry/filtered
+    progress_checker_plugin: "progress_checker"
+    goal_checker_plugins: ["general_goal_checker"]
+    controller_plugins: ["FollowPath"]
+
+    progress_checker:
+      plugin: "nav2_controller::SimpleProgressChecker"
+      required_movement_radius: 0.3
+      movement_time_allowance: 15.0
+    general_goal_checker:
+      plugin: "nav2_controller::SimpleGoalChecker"
+      xy_goal_tolerance: 0.10
+      yaw_goal_tolerance: 0.15
+      stateful: True
+
+    FollowPath:
+      plugin: "dwb_core::DWBLocalPlanner"
+      debug_trajectory_details: False
+      min_vel_x: 0.0
+      min_vel_y: 0.0
+      max_vel_x: 0.25
+      max_vel_y: 0.0
+      max_vel_theta: 1.0
+      min_speed_xy: 0.0
+      max_speed_xy: 0.25
+      min_speed_theta: 0.0
+      acc_lim_x: 0.5
+      acc_lim_y: 0.0
+      acc_lim_theta: 1.5
+      decel_lim_x: -0.5
+      decel_lim_y: 0.0
+      decel_lim_theta: -1.5
+      vx_samples: 20
+      vy_samples: 1
+      vtheta_samples: 20
+      sim_time: 1.5
+      linear_granularity: 0.05
+      angular_granularity: 0.025
+      transform_tolerance: 0.2
+      xy_goal_tolerance: 0.10
+      trans_stopped_velocity: 0.05
+      short_circuit_trajectory_evaluation: True
+      stateful: True
+      # ObstacleFootprint (not BaseObstacle) checks the whole rectangle, not just the centre point.
+      critics: ["RotateToGoal", "Oscillation", "ObstacleFootprint", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      ObstacleFootprint.scale: 0.02
+      PathAlign.scale: 32.0
+      PathAlign.forward_point_distance: 0.1
+      GoalAlign.scale: 24.0
+      GoalAlign.forward_point_distance: 0.1
+      PathDist.scale: 40.0          # stay on the planned centre-line: matters in the 0.65 m aisle
+      GoalDist.scale: 24.0
+      RotateToGoal.scale: 32.0
+      RotateToGoal.slowing_factor: 5.0
+      RotateToGoal.lookahead_time: -1.0
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      use_sim_time: True
+      update_frequency: 5.0
+      publish_frequency: 2.0
+      global_frame: odom
+      robot_base_frame: base_link
+      rolling_window: true
+      width: 3
+      height: 3
+      resolution: 0.05
+      footprint: "[[0.13, 0.12], [0.13, -0.12], [-0.13, -0.12], [-0.13, 0.12]]"
+      footprint_padding: 0.01
+      plugins: ["obstacle_layer", "inflation_layer"]
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        footprint_clearing_enabled: True
+        observation_sources: scan semantic
+        scan:
+          topic: /scan
+          data_type: "LaserScan"
+          marking: True
+          clearing: True
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.0
+          obstacle_max_range: 5.0
+          obstacle_min_range: 0.0
+          raytrace_max_range: 6.0
+          raytrace_min_range: 0.0
+        semantic:
+          topic: /semantic_costmap/obstacles
+          data_type: "PointCloud2"
+          marking: True
+          clearing: False            # LiDAR rays must not erase the semantic keep-out
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.0
+          obstacle_max_range: 50.0   # measured from the cloud's frame origin (map 0,0), so keep it large
+          obstacle_min_range: 0.0
+          expected_update_rate: 0.0
+          observation_persistence: 0.0
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 5.0
+        inflation_radius: 0.35
+      always_send_full_costmap: True
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      use_sim_time: True
+      update_frequency: 1.0
+      publish_frequency: 1.0
+      global_frame: map
+      robot_base_frame: base_link
+      resolution: 0.05
+      footprint: "[[0.13, 0.12], [0.13, -0.12], [-0.13, -0.12], [-0.13, 0.12]]"
+      footprint_padding: 0.01
+      track_unknown_space: true
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        observation_sources: scan semantic
+        scan:
+          topic: /scan
+          data_type: "LaserScan"
+          marking: True
+          clearing: True
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.0
+          obstacle_max_range: 5.0
+          obstacle_min_range: 0.0
+          raytrace_max_range: 9.5
+          raytrace_min_range: 0.0
+        semantic:
+          topic: /semantic_costmap/obstacles
+          data_type: "PointCloud2"
+          marking: True
+          clearing: False
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.0
+          obstacle_max_range: 50.0
+          obstacle_min_range: 0.0
+          expected_update_rate: 0.0
+          observation_persistence: 0.0
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 4.0     # a bit gentler than local: prefers the middle of an aisle
+        inflation_radius: 0.45
+      always_send_full_costmap: True
+
+planner_server:
+  ros__parameters:
+    use_sim_time: True
+    expected_planner_frequency: 1.0
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_navfn_planner/NavfnPlanner"
+      tolerance: 0.15
+      use_astar: True
+      allow_unknown: True            # goals in not-yet-explored map are allowed; the local costmap still protects
+
+smoother_server:
+  ros__parameters:
+    use_sim_time: True
+    smoother_plugins: ["simple_smoother"]
+    simple_smoother:
+      plugin: "nav2_smoother::SimpleSmoother"
+      tolerance: 1.0e-10
+      max_its: 1000
+      do_refinement: True
+
+behavior_server:
+  ros__parameters:
+    use_sim_time: True
+    costmap_topic: local_costmap/costmap_raw
+    footprint_topic: local_costmap/published_footprint
+    cycle_frequency: 10.0
+    behavior_plugins: ["spin", "backup", "drive_on_heading", "wait"]
+    spin:
+      plugin: "nav2_behaviors/Spin"
+    backup:
+      plugin: "nav2_behaviors/BackUp"
+    drive_on_heading:
+      plugin: "nav2_behaviors/DriveOnHeading"
+    wait:
+      plugin: "nav2_behaviors/Wait"
+    global_frame: odom
+    robot_base_frame: base_link
+    transform_tolerance: 0.2
+    simulate_ahead_time: 2.0
+    max_rotational_vel: 1.0
+    min_rotational_vel: 0.4
+    rotational_acc_lim: 1.5
+
+waypoint_follower:
+  ros__parameters:
+    use_sim_time: True
+    loop_rate: 20
+    stop_on_failure: false
+    waypoint_task_executor_plugin: "wait_at_waypoint"
+    wait_at_waypoint:
+      plugin: "nav2_waypoint_follower::WaitAtWaypoint"
+      enabled: True
+      waypoint_pause_duration: 200
+
+velocity_smoother:
+  ros__parameters:
+    use_sim_time: True
+    smoothing_frequency: 20.0
+    scale_velocities: False
+    feedback: "OPEN_LOOP"
+    max_velocity: [0.25, 0.0, 1.0]
+    min_velocity: [-0.15, 0.0, -1.0]
+    max_accel: [0.5, 0.0, 1.5]
+    max_decel: [-0.5, 0.0, -1.5]
+    odom_topic: "/odometry/filtered"
+    odom_duration: 0.1
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0

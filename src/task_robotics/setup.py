@@ -17,6 +17,7 @@ setup(
         (os.path.join('share', package_name, 'rviz'), glob('rviz/*')),
         (os.path.join('share', package_name, 'config'), glob('config/*')),
         (os.path.join('share', package_name, 'worlds'), glob('worlds/*')),
+        (os.path.join('share', package_name, 'behavior_trees'), glob('behavior_trees/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -33,6 +34,7 @@ setup(
             'cloud_filter = task_robotics.cloud_filter:main',
             'object_detector = task_robotics.object_detector:main',
             'object_slam = task_robotics.object_slam:main',
+            'semantic_costmap = task_robotics.semantic_costmap:main',
         ],
     },
 )
