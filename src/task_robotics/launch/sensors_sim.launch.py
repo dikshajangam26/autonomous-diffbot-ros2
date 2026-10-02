@@ -5,6 +5,8 @@
     ros2 launch task_robotics sensors_sim.launch.py ekf:=false               (wheel odometry only)
     ros2 launch task_robotics sensors_sim.launch.py perception:=false        (no stereo pipeline: lighter)
     ros2 launch task_robotics sensors_sim.launch.py detector:=true people:=true   (YOLO + walking person)
+    ros2 launch task_robotics sensors_sim.launch.py slam:=true                    (LiDAR SLAM: /map + map->odom)
+    ros2 launch task_robotics sensors_sim.launch.py object_slam:=true people:=true (object SLAM: semantic map + map->odom)
 
 Drive the robot (2nd terminal):
     ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.5}}"
@@ -41,6 +43,14 @@ def generate_launch_description():
     people = LaunchConfiguration('people')
     world = PythonExpression(["'", world_people_file, "' if '", people, "' == 'true' else '", world_file, "'"])
     stereo_pkg = get_package_share_directory('stereo_image_proc')
+    slam_pkg = get_package_share_directory('slam_toolbox')
+    slam_params = os.path.join(pkg, 'config', 'slam_toolbox.yaml')
+    slam_params_objects = os.path.join(pkg, 'config', 'slam_toolbox_objects.yaml')
+    object_slam = LaunchConfiguration('object_slam')
+    # object_slam:=true needs LiDAR SLAM and the detector, so it switches them on
+    slam_on = IfCondition(PythonExpression(["'", LaunchConfiguration('slam'), "' == 'true' or '", object_slam, "' == 'true'"]))
+    detector_on = IfCondition(PythonExpression(["('", LaunchConfiguration('detector'), "' == 'true' or '", object_slam, "' == 'true') and '", LaunchConfiguration('perception'), "' == 'true'"]))
+    slam_file = PythonExpression(["'", slam_params_objects, "' if '", object_slam, "' == 'true' else '", slam_params, "'"])
     gazebo_params = os.path.join(pkg, 'config', 'gazebo_params.yaml')
     robot_description = ParameterValue(Command(['xacro ', xacro_file]), value_type=str)
 
@@ -60,6 +70,11 @@ def generate_launch_description():
         DeclareLaunchArgument('ekf', default_value='true', description='Run the EKF'),
         DeclareLaunchArgument('perception', default_value='true',
                               description='Run stereo depth + point cloud + cloud filter'),
+        DeclareLaunchArgument('object_slam', default_value='false',
+                              description='Semantic object SLAM: publishes map->odom from LiDAR + objects '
+                                          '(switches on slam and detector)'),
+        DeclareLaunchArgument('slam', default_value='false',
+                              description='Run slam_toolbox (LiDAR map + map->odom transform)'),
         DeclareLaunchArgument('detector', default_value='false',
                               description='Run the YOLO object detector (needs the YOLO install)'),
         DeclareLaunchArgument('people', default_value='false',
@@ -155,14 +170,28 @@ def generate_launch_description():
             condition=IfCondition(LaunchConfiguration('perception')),
             output='screen'),
 
+        # ---------- Phase 3, Task 7b: LiDAR SLAM -> /map and the map -> odom transform ----------
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(slam_pkg, 'launch', 'online_async_launch.py')),
+            launch_arguments={'slam_params_file': slam_file,
+                              'use_sim_time': 'true'}.items(),
+            condition=slam_on),
+
         # ---------- Phase 3, Task 7a: YOLO finds objects, the stereo cloud gives their 3D position
         Node(
             package='task_robotics',
             executable='object_detector',
             parameters=[{'use_sim_time': True}],
-            condition=IfCondition(PythonExpression(
-                ["'", LaunchConfiguration('detector'), "' == 'true' and '",
-                 LaunchConfiguration('perception'), "' == 'true'"])),
+            condition=detector_on,
+            output='screen'),
+
+        # ---------- Phase 3, Task 7c: semantic object map (factor graph) + map -> odom ----------
+        Node(
+            package='task_robotics',
+            executable='object_slam',
+            parameters=[{'use_sim_time': True}],
+            condition=IfCondition(object_slam),
             output='screen'),
 
         Node(

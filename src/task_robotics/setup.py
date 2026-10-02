@@ -32,6 +32,7 @@ setup(
             'sensor_check = task_robotics.sensor_check:main',
             'cloud_filter = task_robotics.cloud_filter:main',
             'object_detector = task_robotics.object_detector:main',
+            'object_slam = task_robotics.object_slam:main',
         ],
     },
 )

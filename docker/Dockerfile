@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 #   robot_localization -> EKF (Phase 2)      navigation2 / nav2_bringup -> Nav2 (Phase 4)
 #   gazebo_ros_pkgs    -> Gazebo simulation  xacro / robot_state_publisher -> URDF (Phase 2)
 #   stereo_image_proc / image_proc / pcl_ros -> stereo depth and point clouds (Phase 3)
-#   vision_msgs / slam_toolbox / torch + ultralytics -> object detection and SLAM (Phase 3, Task 7)
+#   vision_msgs / slam_toolbox / torch + ultralytics / gtsam -> object detection and SLAM (Phase 3, Task 7)
 RUN apt-get update && apt-get install -y --no-install-recommends \
         python3-serial \
         python3-colcon-common-extensions \
@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # "pallet" into a detector. (The git version of CLIP failed to install silently, so we use PyPI.)
 # numpy stays below 2 because the ROS packages in this image were built against numpy 1.x.
 RUN pip3 install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu \
-    && pip3 install --no-cache-dir "numpy<2" ultralytics clip-anytorch
+    && pip3 install --no-cache-dir "numpy<2" ultralytics clip-anytorch gtsam==4.2
 
 # A normal (non-root) user whose ID matches your Ubuntu user (usually 1000),
 # so files created inside Docker belong to you, not to root.
