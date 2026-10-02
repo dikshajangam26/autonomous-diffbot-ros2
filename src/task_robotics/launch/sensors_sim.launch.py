@@ -3,6 +3,7 @@
     ros2 launch task_robotics sensors_sim.launch.py
     ros2 launch task_robotics sensors_sim.launch.py gui:=false rviz:=false   (fewer windows, less CPU)
     ros2 launch task_robotics sensors_sim.launch.py ekf:=false               (wheel odometry only)
+    ros2 launch task_robotics sensors_sim.launch.py perception:=false        (no stereo pipeline: lighter)
 
 Drive the robot (2nd terminal):
     ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.5}}"
@@ -18,11 +19,12 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable
+from launch.actions import (DeclareLaunchArgument, GroupAction, IncludeLaunchDescription,
+                            SetEnvironmentVariable)
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PythonExpression
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace, SetParameter
 from launch_ros.parameter_descriptions import ParameterValue
 
 
@@ -33,6 +35,8 @@ def generate_launch_description():
     xacro_file = os.path.join(pkg, 'urdf', 'task_robot.urdf.xacro')
     rviz_file = os.path.join(pkg, 'rviz', 'sensors.rviz')
     ekf_file = os.path.join(pkg, 'config', 'ekf.yaml')
+    world_file = os.path.join(pkg, 'worlds', 'warehouse.world')
+    stereo_pkg = get_package_share_directory('stereo_image_proc')
     gazebo_params = os.path.join(pkg, 'config', 'gazebo_params.yaml')
     robot_description = ParameterValue(Command(['xacro ', xacro_file]), value_type=str)
 
@@ -50,6 +54,10 @@ def generate_launch_description():
         DeclareLaunchArgument('odometry', default_value='true',
                               description='Run wheel_tick_pub + odom_calculator'),
         DeclareLaunchArgument('ekf', default_value='true', description='Run the EKF'),
+        DeclareLaunchArgument('perception', default_value='true',
+                              description='Run stereo depth + point cloud + cloud filter'),
+        DeclareLaunchArgument('world', default_value=world_file,
+                              description='Gazebo world file (textured warehouse room)'),
 
         # Stops Gazebo waiting for an online model database (no internet needed)
         SetEnvironmentVariable('GAZEBO_MODEL_DATABASE_URI', ''),
@@ -59,6 +67,7 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(
                 os.path.join(gazebo_pkg, 'launch', 'gazebo.launch.py')),
             launch_arguments={'gui': LaunchConfiguration('gui'),
+                              'world': LaunchConfiguration('world'),
                               'params_file': gazebo_params}.items()),
 
         # Reads the URDF and publishes the TF tree (base_link -> sensor frames)
@@ -108,6 +117,36 @@ def generate_launch_description():
             name='ekf_filter_node',
             parameters=[ekf_file, {'use_sim_time': True}],
             condition=IfCondition(ekf),
+            output='screen'),
+
+        # ---------- Phase 3, Task 6: stereo images -> 3D point cloud ----------
+        # stereo_image_proc: rectify both images -> disparity (how far each pixel shifted between
+        # left and right) -> point cloud. Everything lives in the /stereo namespace, so it reads
+        # /stereo/left/image_raw, /stereo/left/camera_info, /stereo/right/... and writes
+        # /stereo/disparity and /stereo/points2.
+        GroupAction(
+            condition=IfCondition(LaunchConfiguration('perception')),
+            actions=[
+                PushRosNamespace('stereo'),
+                SetParameter(name='use_sim_time', value=True),
+                IncludeLaunchDescription(
+                    PythonLaunchDescriptionSource(
+                        os.path.join(stereo_pkg, 'launch', 'stereo_image_proc.launch.py')),
+                    # left/right pictures come from two separate simulated cameras, so allow a
+                    # tiny time difference when pairing them
+                    launch_arguments={'approximate_sync': 'True'}.items()),
+            ]),
+
+        # Cleans the cloud: pass-through (floor / ceiling / far) + voxel grid -> /stereo/points_filtered
+        Node(
+            package='task_robotics',
+            executable='cloud_filter',
+            parameters=[{'use_sim_time': True,
+                         'voxel_size': 0.05,
+                         'z_min': 0.02, 'z_max': 1.5,
+                         'x_min': 0.2, 'x_max': 6.0,
+                         'y_min': -4.0, 'y_max': 4.0}],
+            condition=IfCondition(LaunchConfiguration('perception')),
             output='screen'),
 
         Node(

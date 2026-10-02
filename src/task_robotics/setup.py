@@ -16,6 +16,7 @@ setup(
         (os.path.join('share', package_name, 'urdf'), glob('urdf/*')),
         (os.path.join('share', package_name, 'rviz'), glob('rviz/*')),
         (os.path.join('share', package_name, 'config'), glob('config/*')),
+        (os.path.join('share', package_name, 'worlds'), glob('worlds/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -29,6 +30,7 @@ setup(
             'wheel_tick_pub = task_robotics.wheel_tick_pub:main',
             'odom_calculator = task_robotics.odom_calculator:main',
             'sensor_check = task_robotics.sensor_check:main',
+            'cloud_filter = task_robotics.cloud_filter:main',
         ],
     },
 )

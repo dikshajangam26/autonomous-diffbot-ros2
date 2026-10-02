@@ -16,8 +16,9 @@ Visualization Manager:
         Value: /robot_description
     - Class: rviz_default_plugins/TF
       Name: TF
-      Enabled: true
-      Show Names: true
+      Enabled: false
+      Show Names: false
+      Show Axes: false
     - Class: rviz_default_plugins/LaserScan
       Name: LaserScan
       Enabled: true
@@ -50,6 +51,12 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /odom
+      Covariance:
+        Orientation:
+          Value: false
+        Position:
+          Value: false
+        Value: false
       Shape:
         Alpha: 1
         Axes Length: 0.1
@@ -70,6 +77,12 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /odometry/filtered
+      Covariance:
+        Orientation:
+          Value: false
+        Position:
+          Value: false
+        Value: false
       Shape:
         Alpha: 1
         Axes Length: 0.1
@@ -80,22 +93,61 @@ Visualization Manager:
         Shaft Length: 0.08
         Shaft Radius: 0.01
         Value: Arrow
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Stereo cloud FILTERED
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /stereo/points_filtered
+      Size (m): 0.04
+      Style: Flat Squares
+      Color Transformer: RGB8
+      Channel Name: rgb
+      Use Fixed Frame: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Stereo cloud RAW (heavy)
+      Enabled: false
+      Topic:
+        Depth: 1
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /stereo/points2
+      Size (m): 0.01
+      Style: Points
+      Color Transformer: RGB8
+      Channel Name: rgb
+      Use Fixed Frame: true
   Enabled: true
   Global Options:
     Fixed Frame: odom
     Frame Rate: 30
   Name: root
-  Tools: []
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 3.0
+      Distance: 5.0
       Focal Point:
-        X: 0
+        X: 1.5
         Y: 0
         Z: 0
-      Pitch: 0.6
-      Yaw: 0.8
+      Pitch: 0.7
+      Yaw: 3.14159
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
 Window Geometry:
+  Displays:
+    collapsed: false
   Left camera:
     collapsed: false

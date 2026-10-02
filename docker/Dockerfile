@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Tools for ALL phases of the project, installed once so we never fight installs later:
 #   robot_localization -> EKF (Phase 2)      navigation2 / nav2_bringup -> Nav2 (Phase 4)
 #   gazebo_ros_pkgs    -> Gazebo simulation  xacro / robot_state_publisher -> URDF (Phase 2)
+#   stereo_image_proc / image_proc / pcl_ros -> stereo depth and point clouds (Phase 3)
 RUN apt-get update && apt-get install -y --no-install-recommends \
         python3-serial \
         python3-colcon-common-extensions \
@@ -19,7 +20,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ros-humble-robot-state-publisher \
         ros-humble-joint-state-publisher-gui \
         ros-humble-tf2-tools \
-        ros-humble-teleop-twist-keyboard \
+        ros-humble-stereo-image-proc \
+        ros-humble-image-proc \
+        ros-humble-pcl-ros \
+        ros-humble-pcl-conversions \
+        python3-numpy \
     && rm -rf /var/lib/apt/lists/*
 
 # A normal (non-root) user whose ID matches your Ubuntu user (usually 1000),

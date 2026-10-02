@@ -27,6 +27,9 @@
 
   <!-- Phase 2, Task 5: sensor fusion -->
   <exec_depend>robot_localization</exec_depend>
+  <exec_depend>stereo_image_proc</exec_depend>
+  <exec_depend>image_proc</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
