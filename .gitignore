@@ -17,3 +17,5 @@ __pycache__/
 # Local settings
 .env
 *:Zone.Identifier
+models/
+weights/

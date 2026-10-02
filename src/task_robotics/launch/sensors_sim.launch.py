@@ -4,6 +4,7 @@
     ros2 launch task_robotics sensors_sim.launch.py gui:=false rviz:=false   (fewer windows, less CPU)
     ros2 launch task_robotics sensors_sim.launch.py ekf:=false               (wheel odometry only)
     ros2 launch task_robotics sensors_sim.launch.py perception:=false        (no stereo pipeline: lighter)
+    ros2 launch task_robotics sensors_sim.launch.py detector:=true people:=true   (YOLO + walking person)
 
 Drive the robot (2nd terminal):
     ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.5}}"
@@ -36,6 +37,9 @@ def generate_launch_description():
     rviz_file = os.path.join(pkg, 'rviz', 'sensors.rviz')
     ekf_file = os.path.join(pkg, 'config', 'ekf.yaml')
     world_file = os.path.join(pkg, 'worlds', 'warehouse.world')
+    world_people_file = os.path.join(pkg, 'worlds', 'warehouse_people.world')
+    people = LaunchConfiguration('people')
+    world = PythonExpression(["'", world_people_file, "' if '", people, "' == 'true' else '", world_file, "'"])
     stereo_pkg = get_package_share_directory('stereo_image_proc')
     gazebo_params = os.path.join(pkg, 'config', 'gazebo_params.yaml')
     robot_description = ParameterValue(Command(['xacro ', xacro_file]), value_type=str)
@@ -56,8 +60,10 @@ def generate_launch_description():
         DeclareLaunchArgument('ekf', default_value='true', description='Run the EKF'),
         DeclareLaunchArgument('perception', default_value='true',
                               description='Run stereo depth + point cloud + cloud filter'),
-        DeclareLaunchArgument('world', default_value=world_file,
-                              description='Gazebo world file (textured warehouse room)'),
+        DeclareLaunchArgument('detector', default_value='false',
+                              description='Run the YOLO object detector (needs the YOLO install)'),
+        DeclareLaunchArgument('people', default_value='false',
+                              description='Add a walking person to the world'),
 
         # Stops Gazebo waiting for an online model database (no internet needed)
         SetEnvironmentVariable('GAZEBO_MODEL_DATABASE_URI', ''),
@@ -67,7 +73,7 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(
                 os.path.join(gazebo_pkg, 'launch', 'gazebo.launch.py')),
             launch_arguments={'gui': LaunchConfiguration('gui'),
-                              'world': LaunchConfiguration('world'),
+                              'world': world,
                               'params_file': gazebo_params}.items()),
 
         # Reads the URDF and publishes the TF tree (base_link -> sensor frames)
@@ -147,6 +153,16 @@ def generate_launch_description():
                          'x_min': 0.2, 'x_max': 6.0,
                          'y_min': -4.0, 'y_max': 4.0}],
             condition=IfCondition(LaunchConfiguration('perception')),
+            output='screen'),
+
+        # ---------- Phase 3, Task 7a: YOLO finds objects, the stereo cloud gives their 3D position
+        Node(
+            package='task_robotics',
+            executable='object_detector',
+            parameters=[{'use_sim_time': True}],
+            condition=IfCondition(PythonExpression(
+                ["'", LaunchConfiguration('detector'), "' == 'true' and '",
+                 LaunchConfiguration('perception'), "' == 'true'"])),
             output='screen'),
 
         Node(
