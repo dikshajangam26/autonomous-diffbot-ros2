@@ -249,17 +249,6 @@ Each camera label shows the class, confidence and range (from stereo depth or th
 |---|---|---|
 | ![slam map](docs/images/slam_map_trajectory.png) | ![semantic map](docs/images/rviz_semantic_map.png) | ![costmap](docs/images/rviz_costmap.png) |
 
-## Known limitations
-
-These are reported rather than tuned away:
-
-- **East aisle stall:** the goal at (3.58, 1.60) timed out after 90 s in all three configurations with Nav2 "Failed to make progress". The costmap shows free space and a valid plan, so the controller stalls with about 7 cm of footprint slack.
-- **Dijkstra + DWB:** after reaching (3.58, -1.60) it aborted waypoints 4 to 7 with the robot stopped inside the aisle near (3.3, -1.47); one stall cascaded into four failed legs.
-- **A\* + MPPI:** 0 of 7 waypoints; it stops 24–45 cm short of goals. The likely cause is that the MPPI critics and noise are untuned for a 5 cm goal tolerance in 0.65 m aisles (not yet confirmed).
-- **Person separation:** 0.37 m against a 0.45 m target. DWB has no motion prediction and the person walks at 0.6 m/s against the robot's 0.25 m/s.
-- **Coverage:** 6 of 10 objects found and the north wall under-scanned by the mapping tour.
-- **TEB:** TEB Local Planner has no Humble apt package and was not built; MPPI is the second local planner.
-- **Simulation only:** no hardware testing. The Gazebo actor has no collision body, so an invisible cylinder stands in for the person.
 
 ### Next steps
 
