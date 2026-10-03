@@ -249,7 +249,6 @@ Each camera label shows the class, confidence and range (from stereo depth or th
 |---|---|---|
 | ![slam map](docs/images/slam_map_trajectory.png) | ![semantic map](docs/images/rviz_semantic_map.png) | ![costmap](docs/images/rviz_costmap.png) |
 
-
 ### Next steps
 
 An approach waypoint and heading alignment at each aisle, MPPI tuning, a Nav2 collision monitor with speed limiting near people, TEB from source, a wider mapping tour, and hardware testing.
