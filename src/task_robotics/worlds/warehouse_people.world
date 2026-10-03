@@ -200,6 +200,45 @@
 
     <!-- A person walking a loop in front of the robot's start area (animated, no collision).
          Uses Gazebo's built-in walk.dae animation, so no download is needed. -->
+    <!-- TASK 9: Gazebo actors have NO collision shape, so the LiDAR cannot see them and the robot could
+         drive straight through the walking person. This invisible cylinder (radius 0.25 m, 1.8 m tall)
+         is driven (by the worker_walker node) along exactly the same route as the actor, so the LiDAR sees
+         a moving person and the robot can really bump into one. Its true position is on /worker/ground_truth. -->
+    <model name="worker_body">
+      <pose>0 -1.3 0 0 0 0</pose>
+      <link name="body">
+        <gravity>false</gravity>
+        <inertial>
+          <mass>60</mass>
+          <inertia><ixx>10</ixx><iyy>10</iyy><izz>5</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+        <collision name="c">
+          <pose>0 0 0.95 0 0 0</pose>
+          <geometry><cylinder><radius>0.25</radius><length>1.8</length></cylinder></geometry>
+        </collision>
+      </link>
+      <plugin name="worker_drive" filename="libgazebo_ros_planar_move.so">
+        <ros><namespace>/worker</namespace></ros>
+        <command_topic>cmd_vel</command_topic>
+        <odometry_topic>odom</odometry_topic>
+        <odometry_frame>worker_odom</odometry_frame>
+        <odometry_rate>20.0</odometry_rate>
+        <robot_base_frame>worker_base</robot_base_frame>
+        <publish_odom>false</publish_odom>
+        <publish_odom_tf>false</publish_odom_tf>
+      </plugin>
+      <plugin name="worker_truth" filename="libgazebo_ros_p3d.so">
+        <ros>
+          <namespace>/worker</namespace>
+          <remapping>odom:=ground_truth</remapping>
+        </ros>
+        <frame_name>world</frame_name>
+        <body_name>body</body_name>
+        <update_rate>50</update_rate>
+        <gaussian_noise>0.0</gaussian_noise>
+      </plugin>
+    </model>
+
     <actor name="worker">
       <skin><filename>walk.dae</filename><scale>1.0</scale></skin>
       <animation name="walking">

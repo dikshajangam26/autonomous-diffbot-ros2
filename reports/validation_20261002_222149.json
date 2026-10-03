@@ -1,0 +1,582 @@
+{
+  "time": "20261002_222149",
+  "configs": [
+    "astar_dwb"
+  ],
+  "tour": [
+    {
+      "label": "tour 1/11",
+      "goal": [
+        1.0,
+        1.2
+      ],
+      "status": "SUCCEEDED",
+      "time": 10.929999999999996,
+      "path_len": 1.5567708689818691,
+      "err_map": 0.04833579646808113,
+      "err_truth": 0.051841701120090886,
+      "min_range": 0.6869936585426331,
+      "min_sep": 0.9515685710439433
+    },
+    {
+      "label": "tour 2/11",
+      "goal": [
+        3.575,
+        1.6
+      ],
+      "status": "TIMEOUT",
+      "time": 90.04000000000002,
+      "path_len": 1.2358570965672662,
+      "err_map": 1.6862193885575056,
+      "err_truth": 1.6860460479008568,
+      "min_range": 0.7354593276977539,
+      "min_sep": 2.4998704229567896
+    },
+    {
+      "label": "tour 3/11",
+      "goal": [
+        3.575,
+        -1.6
+      ],
+      "status": "SUCCEEDED",
+      "time": 23.629999999999995,
+      "path_len": 4.374438157529612,
+      "err_map": 0.047173517097907035,
+      "err_truth": 0.03998562191110574,
+      "min_range": 0.2446536123752594,
+      "min_sep": 1.1242817177514581
+    },
+    {
+      "label": "tour 4/11",
+      "goal": [
+        2.0,
+        -1.9
+      ],
+      "status": "TIMEOUT",
+      "time": 90.02000000000001,
+      "path_len": 0.9777153078942492,
+      "err_map": 1.9041235856581102,
+      "err_truth": 1.9026752972228267,
+      "min_range": 0.17290540039539337,
+      "min_sep": 1.3227632437400012
+    },
+    {
+      "label": "tour 5/11",
+      "goal": [
+        0.0,
+        -1.6
+      ],
+      "status": "SUCCEEDED",
+      "time": 86.31,
+      "path_len": 5.3664871078722225,
+      "err_map": 0.04563071549924541,
+      "err_truth": 0.13386251527956664,
+      "min_range": 0.13001494109630585,
+      "min_sep": 0.3758322505231235
+    },
+    {
+      "label": "tour 6/11",
+      "goal": [
+        -0.8,
+        -1.2
+      ],
+      "status": "SUCCEEDED",
+      "time": 13.639999999999986,
+      "path_len": 1.2499187846496673,
+      "err_map": 0.03071376471090079,
+      "err_truth": 0.04930469658777672,
+      "min_range": 0.17838045954704285,
+      "min_sep": 0.40204691552966976
+    },
+    {
+      "label": "tour 7/11",
+      "goal": [
+        -1.8,
+        0.0
+      ],
+      "status": "SUCCEEDED",
+      "time": 18.54000000000002,
+      "path_len": 1.6566073349052786,
+      "err_map": 0.04465678646322884,
+      "err_truth": 0.044673840883995675,
+      "min_range": 0.574235200881958,
+      "min_sep": 1.1706463485692935
+    },
+    {
+      "label": "tour 8/11",
+      "goal": [
+        -0.8,
+        1.0
+      ],
+      "status": "SUCCEEDED",
+      "time": 10.430000000000007,
+      "path_len": 1.3709039802247136,
+      "err_map": 0.04535630676820206,
+      "err_truth": 0.04006019974828371,
+      "min_range": 0.6490285992622375,
+      "min_sep": 1.8159307626536445
+    },
+    {
+      "label": "tour 9/11",
+      "goal": [
+        -1.2,
+        2.5
+      ],
+      "status": "SUCCEEDED",
+      "time": 13.579999999999984,
+      "path_len": 1.6134846069167599,
+      "err_map": 0.04900207515660353,
+      "err_truth": 0.06043900263268346,
+      "min_range": 0.5595974922180176,
+      "min_sep": 2.0453774862259637
+    },
+    {
+      "label": "tour 10/11",
+      "goal": [
+        0.0,
+        1.3
+      ],
+      "status": "SUCCEEDED",
+      "time": 10.850000000000023,
+      "path_len": 1.7151139240783542,
+      "err_map": 0.055319094030639865,
+      "err_truth": 0.05694778637602388,
+      "min_range": 0.49809467792510986,
+      "min_sep": 2.479427248829441
+    },
+    {
+      "label": "tour 11/11",
+      "goal": [
+        0.0,
+        0.0
+      ],
+      "status": "SUCCEEDED",
+      "time": 11.569999999999993,
+      "path_len": 1.322742590095375,
+      "err_map": 0.049929878707549016,
+      "err_truth": 0.042089425650229696,
+      "min_range": 0.6433470845222473,
+      "min_sep": 0.9409000069507024
+    }
+  ],
+  "map": {
+    "per_object": {
+      "wall_n": {
+        "kind": "wall",
+        "recall": 0.8012618296529969
+      },
+      "wall_s": {
+        "kind": "wall",
+        "recall": 1.0
+      },
+      "wall_e": {
+        "kind": "wall",
+        "recall": 1.0
+      },
+      "wall_w": {
+        "kind": "wall",
+        "recall": 1.0
+      },
+      "shelf_1": {
+        "kind": "shelving rack",
+        "recall": 0.9534883720930233
+      },
+      "shelf_2": {
+        "kind": "shelving rack",
+        "recall": 0.9476744186046512
+      },
+      "shelf_3": {
+        "kind": "shelving rack",
+        "recall": 0.5581395348837209
+      },
+      "box_1": {
+        "kind": "cardboard box",
+        "recall": 1.0
+      },
+      "box_2": {
+        "kind": "cardboard box",
+        "recall": 0.83
+      },
+      "box_3": {
+        "kind": "cardboard box",
+        "recall": 0.6190476190476191
+      },
+      "box_4": {
+        "kind": "cardboard box",
+        "recall": 0.78
+      },
+      "box_5": {
+        "kind": "cardboard box",
+        "recall": 0.8970588235294118
+      }
+    },
+    "wall_recall": 0.9503154574132492,
+    "rack_recall": 0.8197674418604651,
+    "box_recall": 0.8252212885154062,
+    "precision": 0.9980879541108987,
+    "map_cells": 1569
+  },
+  "landmarks": {
+    "rows": [
+      {
+        "label": "shelving rack",
+        "x": 2.905454907236256,
+        "y": 1.5247465099957407,
+        "nearest": "shelf_1",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.12083816583979629,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": 1.6602128982551259,
+        "y": 0.10107345724676124,
+        "nearest": "box_1",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.17250007992474867,
+        "class_ok": true
+      },
+      {
+        "label": "shelving rack",
+        "x": 2.8054206186446518,
+        "y": -0.9265296734608136,
+        "nearest": "shelf_2",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.7010159886746011,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": 0.4123548893225872,
+        "y": 2.4275049248523892,
+        "nearest": "box_4",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.01235488932258716,
+        "centre_dist": 0.44697998355454693,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": -1.5428177500772986,
+        "y": -1.805794293480493,
+        "nearest": "box_3",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.007182249922701445,
+        "centre_dist": 0.3222709514058687,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": -1.6694677064652188,
+        "y": 1.5080348335981175,
+        "nearest": "box_2",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.030532293534781207,
+        "centre_dist": 0.4410161623585259,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": -0.41529918099190377,
+        "y": 2.3542885908159175,
+        "nearest": "box_4",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.04820371218710922,
+        "centre_dist": 0.4825427507856415,
+        "class_ok": true
+      }
+    ],
+    "position_ok": 1.0,
+    "class_ok": 1.0,
+    "found": {
+      "shelf_1": true,
+      "shelf_2": true,
+      "shelf_3": false,
+      "box_1": true,
+      "box_2": true,
+      "box_3": true,
+      "box_4": true,
+      "box_5": false,
+      "pallet_1": false,
+      "pallet_2": false
+    },
+    "racks_found": 2,
+    "racks_total": 3
+  },
+  "planners": {
+    "A*": {
+      "paths": 7,
+      "mean_length": 3.3437960565521414,
+      "mean_ms": 38.29863057035254
+    },
+    "Dijkstra": {
+      "paths": 7,
+      "mean_length": 3.333482102222951,
+      "mean_ms": 40.208020288056495
+    }
+  },
+  "missions": {
+    "astar_dwb": {
+      "legs": [
+        {
+          "label": "astar_dwb wp1",
+          "goal": [
+            1.0,
+            1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 10.100000000000023,
+          "path_len": 1.5636432640067244,
+          "err_map": 0.047339184059968765,
+          "err_truth": 0.05077869422885159,
+          "min_range": 0.9549247622489929,
+          "min_sep": 1.500291908247353
+        },
+        {
+          "label": "astar_dwb wp2",
+          "goal": [
+            3.575,
+            1.6
+          ],
+          "status": "TIMEOUT",
+          "time": 90.02000000000004,
+          "path_len": 1.918864958818616,
+          "err_map": 1.656639618568869,
+          "err_truth": 1.6410843659736056,
+          "min_range": 0.5759958624839783,
+          "min_sep": 2.277467968141133
+        },
+        {
+          "label": "astar_dwb wp3",
+          "goal": [
+            3.575,
+            -1.6
+          ],
+          "status": "SUCCEEDED",
+          "time": 23.629999999999995,
+          "path_len": 4.472010110360356,
+          "err_map": 0.047834645120879996,
+          "err_truth": 0.05113691911836474,
+          "min_range": 0.2231697291135788,
+          "min_sep": 1.309011504569977
+        },
+        {
+          "label": "astar_dwb wp4",
+          "goal": [
+            2.0,
+            -1.9
+          ],
+          "status": "SUCCEEDED",
+          "time": 31.079999999999927,
+          "path_len": 4.323395852851218,
+          "err_map": 0.04956366247215532,
+          "err_truth": 0.060952798750023934,
+          "min_range": 0.13001734018325806,
+          "min_sep": 0.4081846434245552
+        },
+        {
+          "label": "astar_dwb wp5",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 21.06000000000006,
+          "path_len": 3.188185432468736,
+          "err_map": 0.03434837146302651,
+          "err_truth": 0.05589731014334922,
+          "min_range": 0.34125471115112305,
+          "min_sep": 0.5665571597730761
+        },
+        {
+          "label": "astar_dwb wp6",
+          "goal": [
+            -1.2,
+            2.5
+          ],
+          "status": "SUCCEEDED",
+          "time": 22.17999999999995,
+          "path_len": 3.8156132497979702,
+          "err_map": 0.047523557049877124,
+          "err_truth": 0.04940844911841055,
+          "min_range": 0.3417244851589203,
+          "min_sep": 0.6166657930786275
+        },
+        {
+          "label": "astar_dwb wp7",
+          "goal": [
+            0.0,
+            0.0
+          ],
+          "status": "SUCCEEDED",
+          "time": 16.860000000000014,
+          "path_len": 2.8332174885280033,
+          "err_map": 0.0432175072712467,
+          "err_truth": 0.03651471984678011,
+          "min_range": 0.49468517303466797,
+          "min_sep": 0.9344222236284968
+        }
+      ],
+      "summary": {
+        "legs": 7,
+        "succeeded": 6,
+        "success_rate": 0.8571428571428571,
+        "mean_time": 20.818333333333328,
+        "mean_path": 3.3660108996688343,
+        "mean_err_cm": 4.497115457285907,
+        "max_err_cm": 4.9563662472155325,
+        "min_lidar": 0.13001734018325806,
+        "min_sep": 0.4081846434245552
+      }
+    }
+  },
+  "dynamic": {
+    "astar_dwb": {
+      "legs": [
+        {
+          "label": "astar_dwb cross 1",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "SUCCEEDED",
+          "time": 32.26999999999998,
+          "path_len": 5.933814701805683,
+          "err_map": 0.04402557416824525,
+          "err_truth": 2.2320671711556175,
+          "min_range": 0.13000765442848206,
+          "min_sep": 0.3813393334556544
+        },
+        {
+          "label": "astar_dwb cross 2",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 21.40000000000009,
+          "path_len": 3.503907294016141,
+          "err_map": 0.045999764039627015,
+          "err_truth": 2.2302400562265823,
+          "min_range": 0.15601126849651337,
+          "min_sep": 0.38796176295199203
+        },
+        {
+          "label": "astar_dwb cross 3",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "SUCCEEDED",
+          "time": 16.089999999999918,
+          "path_len": 3.2305984754118584,
+          "err_map": 0.04615851229416493,
+          "err_truth": 2.3067393307917037,
+          "min_range": 0.46504080295562744,
+          "min_sep": 0.7500635527636742
+        },
+        {
+          "label": "astar_dwb cross 4",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 27.860000000000014,
+          "path_len": 3.425943537433572,
+          "err_map": 0.048719601853213515,
+          "err_truth": 2.2273481062707,
+          "min_range": 0.13047157227993011,
+          "min_sep": 0.37919468219827257
+        }
+      ],
+      "summary": {
+        "legs": 4,
+        "succeeded": 4,
+        "success_rate": 1.0,
+        "mean_time": 24.405,
+        "mean_path": 4.023566002166814,
+        "mean_err_cm": 4.622586308881267,
+        "max_err_cm": 4.871960185321352,
+        "min_lidar": 0.13000765442848206,
+        "min_sep": 0.37919468219827257
+      }
+    }
+  },
+  "checks": [
+    {
+      "key": "wall_recall",
+      "what": "SLAM map: share of wall surface that is mapped",
+      "target": 0.85,
+      "value": 0.9503154574132492,
+      "pass": true
+    },
+    {
+      "key": "rack_recall",
+      "what": "SLAM map: average share of rack surface that is mapped",
+      "target": 0.4,
+      "value": 0.8197674418604651,
+      "pass": true
+    },
+    {
+      "key": "precision",
+      "what": "SLAM map: share of drawn cells that are real surface",
+      "target": 0.85,
+      "value": 0.9980879541108987,
+      "pass": true
+    },
+    {
+      "key": "landmark_position",
+      "what": "Semantic map: landmarks within 0.5 m of a real object",
+      "target": 0.75,
+      "value": 1.0,
+      "pass": true
+    },
+    {
+      "key": "racks_found",
+      "what": "Semantic map: racks found (of 3), right class, within 0.6 m",
+      "target": 2,
+      "value": 2,
+      "pass": true
+    },
+    {
+      "key": "success",
+      "what": "Missions: legs that reached the goal",
+      "target": 0.9,
+      "value": 0.8571428571428571,
+      "pass": false
+    },
+    {
+      "key": "goal_error_cm",
+      "what": "Missions: worst final error (cm, map frame)",
+      "target": 15.0,
+      "value": 4.9563662472155325,
+      "pass": true
+    },
+    {
+      "key": "clearance",
+      "what": "Missions: closest LiDAR return (m) - robot half-width is 0.12",
+      "target": 0.16,
+      "value": 0.13001734018325806,
+      "pass": false
+    },
+    {
+      "key": "dyn_success",
+      "what": "Dynamic: legs that reached the goal",
+      "target": 0.75,
+      "value": 1.0,
+      "pass": true
+    },
+    {
+      "key": "separation",
+      "what": "Dynamic: closest distance to the walking person (m) - touching is 0.37-0.43",
+      "target": 0.45,
+      "value": 0.37919468219827257,
+      "pass": false
+    }
+  ],
+  "overall": false
+}

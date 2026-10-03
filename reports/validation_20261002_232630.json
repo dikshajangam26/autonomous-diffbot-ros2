@@ -1,0 +1,952 @@
+{
+  "time": "20261002_232630",
+  "configs": [
+    "astar_dwb",
+    "dijkstra_dwb",
+    "astar_mppi"
+  ],
+  "tour": [
+    {
+      "label": "tour 1/11",
+      "goal": [
+        1.0,
+        1.2
+      ],
+      "status": "SUCCEEDED",
+      "time": 10.38,
+      "path_len": 1.5672573807751065,
+      "err_map": 0.04745605749049095,
+      "err_truth": 0.05196622975659274,
+      "min_range": 0.9695236086845398,
+      "min_sep": 1.6107716483458037
+    },
+    {
+      "label": "tour 2/11",
+      "goal": [
+        3.575,
+        1.6
+      ],
+      "status": "TIMEOUT",
+      "time": 90.04,
+      "path_len": 1.275983953059352,
+      "err_map": 1.642143553437198,
+      "err_truth": 1.654009321754057,
+      "min_range": 0.4826274812221527,
+      "min_sep": 1.6424407778418524
+    },
+    {
+      "label": "tour 3/11",
+      "goal": [
+        3.575,
+        -1.6
+      ],
+      "status": "SUCCEEDED",
+      "time": 16.570000000000007,
+      "path_len": 2.9019051661226993,
+      "err_map": 0.045219183926617425,
+      "err_truth": 0.05347678129498891,
+      "min_range": 0.2535207271575928,
+      "min_sep": 1.1644906047193122
+    },
+    {
+      "label": "tour 4/11",
+      "goal": [
+        2.0,
+        -1.9
+      ],
+      "status": "TIMEOUT",
+      "time": 90.03,
+      "path_len": 0.09179643440347969,
+      "err_map": 1.6227599761465228,
+      "err_truth": 1.6221266033760255,
+      "min_range": 0.24899344146251678,
+      "min_sep": 1.374777808371954
+    },
+    {
+      "label": "tour 5/11",
+      "goal": [
+        0.0,
+        -1.6
+      ],
+      "status": "TIMEOUT",
+      "time": 90.02000000000001,
+      "path_len": 5.29797742343103,
+      "err_map": 1.6720781789797126,
+      "err_truth": 1.6624466674404035,
+      "min_range": 0.136525496840477,
+      "min_sep": 0.9325471795710406
+    },
+    {
+      "label": "tour 6/11",
+      "goal": [
+        -0.8,
+        -1.2
+      ],
+      "status": "SUCCEEDED",
+      "time": 14.689999999999998,
+      "path_len": 2.065996906269128,
+      "err_map": 0.04709637992953042,
+      "err_truth": 0.04061204941929881,
+      "min_range": 0.3181905448436737,
+      "min_sep": 0.634156191248355
+    },
+    {
+      "label": "tour 7/11",
+      "goal": [
+        -1.8,
+        0.0
+      ],
+      "status": "SUCCEEDED",
+      "time": 20.560000000000002,
+      "path_len": 1.631559154660863,
+      "err_map": 0.04870976941999777,
+      "err_truth": 0.04311032939689987,
+      "min_range": 0.5784454941749573,
+      "min_sep": 0.8699399236153647
+    },
+    {
+      "label": "tour 8/11",
+      "goal": [
+        -0.8,
+        1.0
+      ],
+      "status": "SUCCEEDED",
+      "time": 9.46999999999997,
+      "path_len": 1.336248201198688,
+      "err_map": 0.047882414501492505,
+      "err_truth": 0.05573658232098754,
+      "min_range": 0.8937653303146362,
+      "min_sep": 1.9409972965132531
+    },
+    {
+      "label": "tour 9/11",
+      "goal": [
+        -1.2,
+        2.5
+      ],
+      "status": "SUCCEEDED",
+      "time": 12.700000000000045,
+      "path_len": 1.6414364802867611,
+      "err_map": 0.04763145174841619,
+      "err_truth": 0.04789683969883895,
+      "min_range": 0.6175365447998047,
+      "min_sep": 2.5530326401463284
+    },
+    {
+      "label": "tour 10/11",
+      "goal": [
+        0.0,
+        1.3
+      ],
+      "status": "SUCCEEDED",
+      "time": 11.169999999999959,
+      "path_len": 1.6894077543566481,
+      "err_map": 0.03969334380084384,
+      "err_truth": 0.06034788808445066,
+      "min_range": 0.45958998799324036,
+      "min_sep": 2.2469728636634514
+    },
+    {
+      "label": "tour 11/11",
+      "goal": [
+        0.0,
+        0.0
+      ],
+      "status": "SUCCEEDED",
+      "time": 11.810000000000002,
+      "path_len": 1.319467250504375,
+      "err_map": 0.039659197989970016,
+      "err_truth": 0.047385516257702355,
+      "min_range": 0.6377036571502686,
+      "min_sep": 0.9467404322505109
+    }
+  ],
+  "map": {
+    "per_object": {
+      "wall_n": {
+        "kind": "wall",
+        "recall": 0.3753943217665615
+      },
+      "wall_s": {
+        "kind": "wall",
+        "recall": 1.0
+      },
+      "wall_e": {
+        "kind": "wall",
+        "recall": 1.0
+      },
+      "wall_w": {
+        "kind": "wall",
+        "recall": 1.0
+      },
+      "shelf_1": {
+        "kind": "shelving rack",
+        "recall": 0.9302325581395349
+      },
+      "shelf_2": {
+        "kind": "shelving rack",
+        "recall": 0.9302325581395349
+      },
+      "shelf_3": {
+        "kind": "shelving rack",
+        "recall": 0.5523255813953488
+      },
+      "box_1": {
+        "kind": "cardboard box",
+        "recall": 1.0
+      },
+      "box_2": {
+        "kind": "cardboard box",
+        "recall": 0.82
+      },
+      "box_3": {
+        "kind": "cardboard box",
+        "recall": 0.5952380952380952
+      },
+      "box_4": {
+        "kind": "cardboard box",
+        "recall": 0.76
+      },
+      "box_5": {
+        "kind": "cardboard box",
+        "recall": 0.8823529411764706
+      }
+    },
+    "wall_recall": 0.8438485804416404,
+    "rack_recall": 0.8042635658914729,
+    "box_recall": 0.8115182072829132,
+    "precision": 0.999034749034749,
+    "map_cells": 1036
+  },
+  "landmarks": {
+    "rows": [
+      {
+        "label": "shelving rack",
+        "x": 2.775059180278354,
+        "y": 1.6861029311096905,
+        "nearest": "shelf_1",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.24085698479123674,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": 0.36473037426821214,
+        "y": 2.44076493331096,
+        "nearest": "box_4",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.3979749393834909,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": -1.7722909439445476,
+        "y": 1.5534663157428943,
+        "nearest": "box_2",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.3356043379979578,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": -1.515746395207152,
+        "y": -1.704942221022739,
+        "nearest": "box_3",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.05659958381179436,
+        "centre_dist": 0.4097062420475467,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": 1.8026682112073171,
+        "y": 0.057533982494631014,
+        "nearest": "box_1",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.05759582009781057,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": -0.3777408117752407,
+        "y": 2.4065491678447564,
+        "nearest": "box_4",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.42439527016941897,
+        "class_ok": true
+      },
+      {
+        "label": "shelving rack",
+        "x": 2.619424158221993,
+        "y": -0.9732738074215579,
+        "nearest": "shelf_2",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.13057584177800718,
+        "centre_dist": 0.7332282671916771,
+        "class_ok": true
+      }
+    ],
+    "position_ok": 1.0,
+    "class_ok": 1.0,
+    "found": {
+      "shelf_1": true,
+      "shelf_2": true,
+      "shelf_3": false,
+      "box_1": true,
+      "box_2": true,
+      "box_3": true,
+      "box_4": true,
+      "box_5": false,
+      "pallet_1": false,
+      "pallet_2": false
+    },
+    "racks_found": 2,
+    "racks_total": 3
+  },
+  "planners": {
+    "A*": {
+      "paths": 7,
+      "mean_length": 3.887622979518292,
+      "mean_ms": 43.411181861301884
+    },
+    "Dijkstra": {
+      "paths": 7,
+      "mean_length": 3.8466162881656953,
+      "mean_ms": 48.12080242637811
+    }
+  },
+  "missions": {
+    "astar_dwb": {
+      "legs": [
+        {
+          "label": "astar_dwb wp1",
+          "goal": [
+            1.0,
+            1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 10.600000000000023,
+          "path_len": 1.5587779896148481,
+          "err_map": 0.047611426430396675,
+          "err_truth": 0.054817989612412986,
+          "min_range": 0.9554780125617981,
+          "min_sep": 1.3756375115850779
+        },
+        {
+          "label": "astar_dwb wp2",
+          "goal": [
+            3.575,
+            1.6
+          ],
+          "status": "TIMEOUT",
+          "time": 90.03000000000003,
+          "path_len": 1.6269802657671728,
+          "err_map": 1.5920328645249286,
+          "err_truth": 1.5870304738357723,
+          "min_range": 0.534454882144928,
+          "min_sep": 2.0878910620751423
+        },
+        {
+          "label": "astar_dwb wp3",
+          "goal": [
+            3.575,
+            -1.6
+          ],
+          "status": "SUCCEEDED",
+          "time": 24.109999999999957,
+          "path_len": 4.419374997181837,
+          "err_map": 0.04562022416954338,
+          "err_truth": 0.05633630728093691,
+          "min_range": 0.2524506151676178,
+          "min_sep": 1.1104461530622491
+        },
+        {
+          "label": "astar_dwb wp4",
+          "goal": [
+            2.0,
+            -1.9
+          ],
+          "status": "SUCCEEDED",
+          "time": 27.529999999999973,
+          "path_len": 4.337288378857498,
+          "err_map": 0.04216555980116521,
+          "err_truth": 0.050674756378406266,
+          "min_range": 0.13499361276626587,
+          "min_sep": 0.38509058535214685
+        },
+        {
+          "label": "astar_dwb wp5",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 20.83000000000004,
+          "path_len": 3.148000610525001,
+          "err_map": 0.039967189659974395,
+          "err_truth": 0.03536709167926805,
+          "min_range": 0.336094468832016,
+          "min_sep": 0.566094518828945
+        },
+        {
+          "label": "astar_dwb wp6",
+          "goal": [
+            -1.2,
+            2.5
+          ],
+          "status": "SUCCEEDED",
+          "time": 22.0,
+          "path_len": 3.8147092394335256,
+          "err_map": 0.04637602201738907,
+          "err_truth": 0.04232705597495519,
+          "min_range": 0.3598249852657318,
+          "min_sep": 0.6055312541102503
+        },
+        {
+          "label": "astar_dwb wp7",
+          "goal": [
+            0.0,
+            0.0
+          ],
+          "status": "SUCCEEDED",
+          "time": 17.32000000000005,
+          "path_len": 2.828235878480798,
+          "err_map": 0.05825633994788548,
+          "err_truth": 0.030475574269884734,
+          "min_range": 0.501480758190155,
+          "min_sep": 0.924332531317052
+        }
+      ],
+      "summary": {
+        "legs": 7,
+        "succeeded": 6,
+        "success_rate": 0.8571428571428571,
+        "mean_time": 20.39833333333334,
+        "mean_path": 3.351064515682251,
+        "mean_err_cm": 4.666612700439237,
+        "max_err_cm": 5.825633994788548,
+        "min_lidar": 0.13499361276626587,
+        "min_sep": 0.38509058535214685
+      }
+    },
+    "dijkstra_dwb": {
+      "legs": [
+        {
+          "label": "dijkstra_dwb wp1",
+          "goal": [
+            1.0,
+            1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 19.980000000000018,
+          "path_len": 3.121557383776032,
+          "err_map": 0.045923182381314646,
+          "err_truth": 2.130608698914038,
+          "min_range": 0.4778326451778412,
+          "min_sep": 2.1551107155897857
+        },
+        {
+          "label": "dijkstra_dwb wp2",
+          "goal": [
+            3.575,
+            1.6
+          ],
+          "status": "TIMEOUT",
+          "time": 90.02999999999997,
+          "path_len": 1.4035487479073712,
+          "err_map": 1.5959126991782007,
+          "err_truth": 3.497246549753874,
+          "min_range": 0.6868358850479126,
+          "min_sep": 1.6678772435113174
+        },
+        {
+          "label": "dijkstra_dwb wp3",
+          "goal": [
+            3.575,
+            -1.6
+          ],
+          "status": "SUCCEEDED",
+          "time": 33.629999999999995,
+          "path_len": 5.428002437380402,
+          "err_map": 0.0972179652362329,
+          "err_truth": 1.0391694620548295,
+          "min_range": 0.13001708686351776,
+          "min_sep": 0.3713032661981768
+        },
+        {
+          "label": "dijkstra_dwb wp4",
+          "goal": [
+            2.0,
+            -1.9
+          ],
+          "status": "ABORTED",
+          "time": 78.72000000000003,
+          "path_len": 1.430787815729443,
+          "err_map": 1.3611056742990255,
+          "err_truth": 0.5957036884900844,
+          "min_range": 0.13001559674739838,
+          "min_sep": 0.3723934101234475
+        },
+        {
+          "label": "dijkstra_dwb wp5",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "ABORTED",
+          "time": 18.460000000000036,
+          "path_len": 0.0,
+          "err_map": 4.106429776638401,
+          "err_truth": 3.3475550020549107,
+          "min_range": 0.1797998696565628,
+          "min_sep": 0.42206282107807
+        },
+        {
+          "label": "dijkstra_dwb wp6",
+          "goal": [
+            -1.2,
+            2.5
+          ],
+          "status": "ABORTED",
+          "time": 16.370000000000005,
+          "path_len": 0.0,
+          "err_map": 5.998260524152976,
+          "err_truth": 5.538930912007265,
+          "min_range": 0.13872934877872467,
+          "min_sep": 0.4134105225963693
+        },
+        {
+          "label": "dijkstra_dwb wp7",
+          "goal": [
+            0.0,
+            0.0
+          ],
+          "status": "ABORTED",
+          "time": 22.110000000000014,
+          "path_len": 0.3541090330327802,
+          "err_map": 3.6751071867913905,
+          "err_truth": 2.864868542256725,
+          "min_range": 0.13000763952732086,
+          "min_sep": 0.381875611428833
+        }
+      ],
+      "summary": {
+        "legs": 7,
+        "succeeded": 2,
+        "success_rate": 0.2857142857142857,
+        "mean_time": 26.805000000000007,
+        "mean_path": 4.274779910578217,
+        "mean_err_cm": 7.157057380877377,
+        "max_err_cm": 9.72179652362329,
+        "min_lidar": 0.13000763952732086,
+        "min_sep": 0.3713032661981768
+      }
+    },
+    "astar_mppi": {
+      "legs": [
+        {
+          "label": "astar_mppi wp1",
+          "goal": [
+            1.0,
+            1.2
+          ],
+          "status": "TIMEOUT",
+          "time": 90.00999999999999,
+          "path_len": 3.1136471357732756,
+          "err_map": 0.2444810764123487,
+          "err_truth": 2.1014388878744286,
+          "min_range": 0.45560652017593384,
+          "min_sep": 2.0562868726034993
+        },
+        {
+          "label": "astar_mppi wp2",
+          "goal": [
+            3.575,
+            1.6
+          ],
+          "status": "TIMEOUT",
+          "time": 90.00999999999999,
+          "path_len": 4.014840658053178,
+          "err_map": 0.39296994820438247,
+          "err_truth": 2.1327486106952906,
+          "min_range": 0.3568471074104309,
+          "min_sep": 1.1991217375552135
+        },
+        {
+          "label": "astar_mppi wp3",
+          "goal": [
+            3.575,
+            -1.6
+          ],
+          "status": "TIMEOUT",
+          "time": 90.02999999999997,
+          "path_len": 9.205653270075397,
+          "err_map": 0.45177375503078343,
+          "err_truth": 4.353779047591782,
+          "min_range": 0.13001607358455658,
+          "min_sep": 0.3655439993270131
+        },
+        {
+          "label": "astar_mppi wp4",
+          "goal": [
+            2.0,
+            -1.9
+          ],
+          "status": "TIMEOUT",
+          "time": 90.0300000000002,
+          "path_len": 3.3261460451370914,
+          "err_map": 0.30647627727290383,
+          "err_truth": 4.419066832939765,
+          "min_range": 0.32874229550361633,
+          "min_sep": 0.7869592500459821
+        },
+        {
+          "label": "astar_mppi wp5",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "TIMEOUT",
+          "time": 90.03999999999996,
+          "path_len": 5.004097712543318,
+          "err_map": 2.2646052486851374,
+          "err_truth": 2.231972559856275,
+          "min_range": 0.3008520007133484,
+          "min_sep": 2.430464305067257
+        },
+        {
+          "label": "astar_mppi wp6",
+          "goal": [
+            -1.2,
+            2.5
+          ],
+          "status": "ABORTED",
+          "time": 84.30999999999995,
+          "path_len": 4.613040518366902,
+          "err_map": 4.50326677963443,
+          "err_truth": 3.470771568975706,
+          "min_range": 0.36484935879707336,
+          "min_sep": 2.360628078597343
+        },
+        {
+          "label": "astar_mppi wp7",
+          "goal": [
+            0.0,
+            0.0
+          ],
+          "status": "ABORTED",
+          "time": 24.700000000000045,
+          "path_len": 0.4592553587719523,
+          "err_map": 1.635884035514678,
+          "err_truth": 2.9821670196036916,
+          "min_range": 0.1485798954963684,
+          "min_sep": 2.516632476719192
+        }
+      ],
+      "summary": {
+        "legs": 7,
+        "succeeded": 0,
+        "success_rate": 0.0,
+        "mean_time": NaN,
+        "mean_path": NaN,
+        "mean_err_cm": NaN,
+        "max_err_cm": NaN,
+        "min_lidar": 0.13001607358455658,
+        "min_sep": 0.3655439993270131
+      }
+    }
+  },
+  "dynamic": {
+    "astar_dwb": {
+      "legs": [
+        {
+          "label": "astar_dwb cross 1",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "SUCCEEDED",
+          "time": 26.059999999999945,
+          "path_len": 5.559757939983857,
+          "err_map": 0.0430322201141946,
+          "err_truth": 2.104414663443042,
+          "min_range": 0.1300356090068817,
+          "min_sep": 0.3714290496649139
+        },
+        {
+          "label": "astar_dwb cross 2",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 27.82000000000005,
+          "path_len": 3.383706568243514,
+          "err_map": 0.04956527865451394,
+          "err_truth": 2.0829623313736043,
+          "min_range": 0.15306447446346283,
+          "min_sep": 0.4118651777259007
+        },
+        {
+          "label": "astar_dwb cross 3",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "SUCCEEDED",
+          "time": 21.519999999999982,
+          "path_len": 3.4654915413097087,
+          "err_map": 0.0488227906653641,
+          "err_truth": 2.205284684128312,
+          "min_range": 0.13004645705223083,
+          "min_sep": 0.37205819174834653
+        },
+        {
+          "label": "astar_dwb cross 4",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 24.659999999999968,
+          "path_len": 3.317070625578654,
+          "err_map": 0.04510938562846063,
+          "err_truth": 2.0883101796162076,
+          "min_range": 0.1308632493019104,
+          "min_sep": 0.4266626085202128
+        }
+      ],
+      "summary": {
+        "legs": 4,
+        "succeeded": 4,
+        "success_rate": 1.0,
+        "mean_time": 25.014999999999986,
+        "mean_path": 3.9315066687789333,
+        "mean_err_cm": 4.6632418765633314,
+        "max_err_cm": 4.9565278654513945,
+        "min_lidar": 0.1300356090068817,
+        "min_sep": 0.3714290496649139
+      }
+    },
+    "dijkstra_dwb": {
+      "legs": [
+        {
+          "label": "dijkstra_dwb cross 1",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "SUCCEEDED",
+          "time": 22.20999999999981,
+          "path_len": 4.648160299500016,
+          "err_map": 0.04472732835399305,
+          "err_truth": 2.162628894640098,
+          "min_range": 0.13000643253326416,
+          "min_sep": 0.3711721800746849
+        },
+        {
+          "label": "dijkstra_dwb cross 2",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 22.800000000000182,
+          "path_len": 3.3755756861442126,
+          "err_map": 0.046962882796100544,
+          "err_truth": 2.0824419036545447,
+          "min_range": 0.15992508828639984,
+          "min_sep": 0.4153226739363896
+        },
+        {
+          "label": "dijkstra_dwb cross 3",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "SUCCEEDED",
+          "time": 18.50999999999999,
+          "path_len": 3.403188256816742,
+          "err_map": 0.047072002348911006,
+          "err_truth": 2.139786128007199,
+          "min_range": 0.13125711679458618,
+          "min_sep": 0.4144217485901227
+        },
+        {
+          "label": "dijkstra_dwb cross 4",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "SUCCEEDED",
+          "time": 28.12999999999988,
+          "path_len": 3.4058556676967284,
+          "err_map": 0.04827775108036412,
+          "err_truth": 2.089297088629405,
+          "min_range": 0.13027431070804596,
+          "min_sep": 0.3742256604458144
+        }
+      ],
+      "summary": {
+        "legs": 4,
+        "succeeded": 4,
+        "success_rate": 1.0,
+        "mean_time": 22.912499999999966,
+        "mean_path": 3.7081949775394247,
+        "mean_err_cm": 4.675999114484218,
+        "max_err_cm": 4.827775108036412,
+        "min_lidar": 0.13000643253326416,
+        "min_sep": 0.3711721800746849
+      }
+    },
+    "astar_mppi": {
+      "legs": [
+        {
+          "label": "astar_mppi cross 1",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "TIMEOUT",
+          "time": 90.02999999999997,
+          "path_len": 1.6336187487592935,
+          "err_map": 0.4496274200900873,
+          "err_truth": 4.48082807042339,
+          "min_range": 0.13045702874660492,
+          "min_sep": 2.0187369974029434
+        },
+        {
+          "label": "astar_mppi cross 2",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "TIMEOUT",
+          "time": 90.00999999999999,
+          "path_len": 4.471157754982661,
+          "err_map": 2.034388431124499,
+          "err_truth": 2.5007708610641695,
+          "min_range": 0.3355409801006317,
+          "min_sep": 2.1525355616228836
+        },
+        {
+          "label": "astar_mppi cross 3",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "TIMEOUT",
+          "time": 90.03999999999996,
+          "path_len": 1.5580590058324708,
+          "err_map": 0.3990793110575527,
+          "err_truth": 4.46543376480938,
+          "min_range": 0.5313922166824341,
+          "min_sep": 1.9325797372264253
+        },
+        {
+          "label": "astar_mppi cross 4",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "ABORTED",
+          "time": 76.73999999999978,
+          "path_len": 4.603712826067042,
+          "err_map": 1.9914265385268117,
+          "err_truth": 2.5758068856124634,
+          "min_range": 0.13436275720596313,
+          "min_sep": 2.0106539878386473
+        }
+      ],
+      "summary": {
+        "legs": 4,
+        "succeeded": 0,
+        "success_rate": 0.0,
+        "mean_time": NaN,
+        "mean_path": NaN,
+        "mean_err_cm": NaN,
+        "max_err_cm": NaN,
+        "min_lidar": 0.13045702874660492,
+        "min_sep": 1.9325797372264253
+      }
+    }
+  },
+  "checks": [
+    {
+      "key": "wall_recall",
+      "what": "SLAM map: share of wall surface that is mapped",
+      "target": 0.85,
+      "value": 0.8438485804416404,
+      "pass": false
+    },
+    {
+      "key": "rack_recall",
+      "what": "SLAM map: average share of rack surface that is mapped",
+      "target": 0.4,
+      "value": 0.8042635658914729,
+      "pass": true
+    },
+    {
+      "key": "precision",
+      "what": "SLAM map: share of drawn cells that are real surface",
+      "target": 0.85,
+      "value": 0.999034749034749,
+      "pass": true
+    },
+    {
+      "key": "landmark_position",
+      "what": "Semantic map: landmarks within 0.5 m of a real object",
+      "target": 0.75,
+      "value": 1.0,
+      "pass": true
+    },
+    {
+      "key": "racks_found",
+      "what": "Semantic map: racks found (of 3), right class, within 0.6 m",
+      "target": 2,
+      "value": 2,
+      "pass": true
+    },
+    {
+      "key": "success",
+      "what": "Missions: legs that reached the goal",
+      "target": 0.9,
+      "value": 0.8571428571428571,
+      "pass": false
+    },
+    {
+      "key": "goal_error_cm",
+      "what": "Missions: worst final error (cm, map frame)",
+      "target": 15.0,
+      "value": 5.825633994788548,
+      "pass": true
+    },
+    {
+      "key": "clearance",
+      "what": "Missions: closest LiDAR return (m) - robot half-width is 0.12",
+      "target": 0.16,
+      "value": 0.13499361276626587,
+      "pass": false
+    },
+    {
+      "key": "dyn_success",
+      "what": "Dynamic: legs that reached the goal",
+      "target": 0.75,
+      "value": 1.0,
+      "pass": true
+    },
+    {
+      "key": "separation",
+      "what": "Dynamic: closest distance to the walking person (m) - touching is 0.37-0.43",
+      "target": 0.45,
+      "value": 0.3714290496649139,
+      "pass": false
+    }
+  ],
+  "overall": false
+}

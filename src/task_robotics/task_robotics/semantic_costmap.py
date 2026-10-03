@@ -14,13 +14,16 @@ Publishes  : /semantic_costmap/obstacles  PointCloud2 (frame map) - read by both
              /semantic_costmap/markers    RViz: the keep-out discs (orange = static objects, pink = people)
 Start-up   : if object_slam has not published yet, the saved file maps/semantic_map.yaml is used.
 
-Static objects stay in the cloud as long as they are in the map. People are only kept for
+Static objects stay in the cloud as long as they are in the map AND the LiDAR map shows a surface next to them
+(a landmark over empty floor is a ghost: it would plug an aisle that is really free). People are only kept for
 `person_ttl` seconds after the last sighting, so the patch follows them and disappears when they leave.
 """
 import os
 
 import rclpy
+from nav_msgs.msg import OccupancyGrid
 from rclpy.node import Node
+from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rclpy.time import Time
 from sensor_msgs.msg import PointCloud2, PointField
 from tf2_ros import Buffer, TransformException, TransformListener
@@ -43,6 +46,7 @@ class SemanticCostmap(Node):
         self.declare_parameter('person_ttl', 1.5)
         self.declare_parameter('publish_rate', 2.0)
         self.declare_parameter('min_person_score', 0.4)
+        self.declare_parameter('support_radius', 0.20)   # a rack/box landmark needs a mapped surface this close
 
         self.table = {'shelving rack': self.get_parameter('rack_radius').value,
                       'pallet': self.get_parameter('pallet_radius').value,
@@ -50,6 +54,9 @@ class SemanticCostmap(Node):
         self.person_radius = self.get_parameter('person_radius').value
         self.person_ttl = self.get_parameter('person_ttl').value
         self.min_person_score = self.get_parameter('min_person_score').value
+        self.support_radius = self.get_parameter('support_radius').value
+        self.occupied = np.zeros((0, 2))
+        self.last_rejected = -1
 
         self.landmarks = []          # list of {label, x, y, size}
         self.live = False            # True once object_slam has published
@@ -67,6 +74,9 @@ class SemanticCostmap(Node):
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
 
+        self.create_subscription(
+            OccupancyGrid, '/map', self.on_map,
+            QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL, reliability=ReliabilityPolicy.RELIABLE))
         self.create_subscription(Detection3DArray, '/semantic_map/landmarks', self.on_landmarks, 5)
         self.create_subscription(Detection3DArray, '/objects/detections', self.on_detections, 5)
         self.cloud_pub = self.create_publisher(PointCloud2, '/semantic_costmap/obstacles', 5)
@@ -74,6 +84,10 @@ class SemanticCostmap(Node):
         self.create_timer(1.0 / self.get_parameter('publish_rate').value, self.publish)
 
     # ------------------------------------------------------------------ inputs
+    def on_map(self, m):
+        self.occupied = so.occupied_cells_xy(m.data, m.info.width, m.info.height, m.info.resolution,
+                                             m.info.origin.position.x, m.info.origin.position.y)
+
     def on_landmarks(self, msg):
         lms = []
         for d in msg.detections:
@@ -114,7 +128,13 @@ class SemanticCostmap(Node):
         now_s = self.get_clock().now().nanoseconds * 1e-9
         self.people = {k: v for k, v in self.people.items() if now_s - v[2] <= self.person_ttl}
 
-        pts, discs = so.landmark_points(self.landmarks, self.table)
+        kept, rejected = so.filter_supported(self.landmarks, self.occupied, self.support_radius)
+        if len(rejected) != self.last_rejected:
+            self.last_rejected = len(rejected)
+            for lm in rejected:
+                self.get_logger().info(f"ignored ghost landmark {lm['label']} at ({lm['x']:.2f}, {lm['y']:.2f}): "
+                                       f'no mapped surface within {self.support_radius} m')
+        pts, discs = so.landmark_points(kept, self.table)
         chunks = [pts]
         person_discs = []
         for x, y, _ in self.people.values():

@@ -12,6 +12,14 @@
 # THE ROBOT (from the URDF):  chassis 0.26 x 0.16 m, wheels reach out to y = +-0.12 m, base_link on the axle.
 #   footprint  = rectangle x +-0.13, y +-0.12   (inscribed radius 0.12 m, corner radius 0.18 m)
 #
+# PLANNERS (Task 9) - pick one per goal through the behaviour tree (behavior_trees/*.xml):
+#   global:  GridBased = NavFn with A*        Dijkstra = NavFn without the heuristic (explores in all directions)
+#   local :  FollowPath = DWB (samples velocity pairs, scores 1.5 s trajectories)
+#            MPPI       = model-predictive path integral: simulates 1000 noisy trajectories 2.8 s ahead every
+#                         50 ms and blends the cheapest ones; costs are read from the LOCAL costmap
+#   Moving obstacles: both local planners re-plan every cycle (20 Hz) on a local costmap that refreshes at
+#   10 Hz, and the semantic layer adds a keep-out disc around every person the camera sees.
+#
 # TIGHT AISLES (from warehouse.world): the narrowest passable gap is the 0.65 m lane between a rack face
 # (x = 3.25) and the east wall (x = 3.90). A cell is "lethal" within 0.12 m of an obstacle, so the robot
 # centre may use the band 0.12 .. 0.53 m from each side: roughly +-8 cm of steering slack. That is why the
@@ -41,7 +49,7 @@ controller_server:
     odom_topic: /odometry/filtered
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"]
-    controller_plugins: ["FollowPath"]
+    controller_plugins: ["FollowPath", "MPPI"]
 
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
@@ -49,8 +57,8 @@ controller_server:
       movement_time_allowance: 15.0
     general_goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.10
-      yaw_goal_tolerance: 0.15
+      xy_goal_tolerance: 0.05        # was 0.10: in a 0.65 m aisle the robot has only +-7.5 cm of slack, so it must
+      yaw_goal_tolerance: 0.30       # stop within 5 cm of the centre line, not 10 cm
       stateful: True
 
     FollowPath:
@@ -77,7 +85,7 @@ controller_server:
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
-      xy_goal_tolerance: 0.10
+      xy_goal_tolerance: 0.05
       trans_stopped_velocity: 0.05
       short_circuit_trajectory_evaluation: True
       stateful: True
@@ -94,12 +102,89 @@ controller_server:
       RotateToGoal.slowing_factor: 5.0
       RotateToGoal.lookahead_time: -1.0
 
+    MPPI:
+      plugin: "nav2_mppi_controller::MPPIController"
+      time_steps: 56                 # 56 x 0.05 s = 2.8 s look-ahead
+      model_dt: 0.05
+      batch_size: 1000               # candidate trajectories per cycle (2000 is the default; 1000 saves CPU)
+      vx_std: 0.1
+      vy_std: 0.0
+      wz_std: 0.4
+      vx_max: 0.25
+      vx_min: -0.10
+      vy_max: 0.0
+      wz_max: 1.0
+      iteration_count: 1
+      prune_distance: 1.7
+      transform_tolerance: 0.2
+      temperature: 0.3
+      gamma: 0.015
+      motion_model: "DiffDrive"
+      visualize: true
+      reset_period: 1.0
+      regenerate_noises: false
+      TrajectoryVisualizer:
+        trajectory_step: 5
+        time_step: 3
+      critics: ["ConstraintCritic", "CostCritic", "GoalCritic", "GoalAngleCritic", "PathAlignCritic", "PathFollowCritic", "PathAngleCritic", "PreferForwardCritic"]
+      ConstraintCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 4.0
+      GoalCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 1.0
+      GoalAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.0
+        threshold_to_consider: 0.5
+      PreferForwardCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 0.5
+      CostCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.81
+        critical_cost: 300.0
+        consider_footprint: true     # checks the whole 0.26 x 0.24 m rectangle, like DWB's ObstacleFootprint
+        collision_cost: 1000000.0
+        near_goal_distance: 0.5
+        inflation_layer_name: ""
+      PathAlignCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 14.0
+        max_path_occupancy_ratio: 0.05
+        trajectory_point_step: 3
+        threshold_to_consider: 0.5
+        offset_from_furthest: 20
+        use_path_orientations: false
+      PathFollowCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        offset_from_furthest: 5
+        threshold_to_consider: 1.0
+      PathAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 2.0
+        offset_from_furthest: 4
+        threshold_to_consider: 0.5
+        max_angle_to_furthest: 1.0
+        forward_preference: true
+
 local_costmap:
   local_costmap:
     ros__parameters:
       use_sim_time: True
-      update_frequency: 5.0
-      publish_frequency: 2.0
+      update_frequency: 10.0         # 10 Hz so a walking person is reacted to quickly
+      publish_frequency: 5.0
       global_frame: odom
       robot_base_frame: base_link
       rolling_window: true
@@ -107,7 +192,7 @@ local_costmap:
       height: 3
       resolution: 0.05
       footprint: "[[0.13, 0.12], [0.13, -0.12], [-0.13, -0.12], [-0.13, 0.12]]"
-      footprint_padding: 0.01
+      footprint_padding: 0.0
       plugins: ["obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -152,7 +237,7 @@ global_costmap:
       robot_base_frame: base_link
       resolution: 0.05
       footprint: "[[0.13, 0.12], [0.13, -0.12], [-0.13, -0.12], [-0.13, 0.12]]"
-      footprint_padding: 0.01
+      footprint_padding: 0.0
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       static_layer:
@@ -194,12 +279,17 @@ planner_server:
   ros__parameters:
     use_sim_time: True
     expected_planner_frequency: 1.0
-    planner_plugins: ["GridBased"]
-    GridBased:
+    planner_plugins: ["GridBased", "Dijkstra"]
+    GridBased:                       # A*: expands cells towards the goal first -> fewer cells, faster
       plugin: "nav2_navfn_planner/NavfnPlanner"
       tolerance: 0.15
       use_astar: True
       allow_unknown: True            # goals in not-yet-explored map are allowed; the local costmap still protects
+    Dijkstra:                        # same cost rules, but explores outward in all directions (guaranteed optimal)
+      plugin: "nav2_navfn_planner/NavfnPlanner"
+      tolerance: 0.15
+      use_astar: False
+      allow_unknown: True
 
 smoother_server:
   ros__parameters:

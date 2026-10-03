@@ -7,6 +7,7 @@
     ros2 launch task_robotics sensors_sim.launch.py detector:=true people:=true   (YOLO + walking person)
     ros2 launch task_robotics sensors_sim.launch.py slam:=true                    (LiDAR SLAM: /map + map->odom)
     ros2 launch task_robotics sensors_sim.launch.py object_slam:=true people:=true (object SLAM: semantic map + map->odom)
+    (people:=true also starts worker_walker: the walking person has an invisible body the LiDAR can see)
 
 Drive the robot (2nd terminal):
     ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.5}}"
@@ -192,6 +193,14 @@ def generate_launch_description():
             executable='object_slam',
             parameters=[{'use_sim_time': True}],
             condition=IfCondition(object_slam),
+            output='screen'),
+
+        # ---------- Phase 4, Task 9: a collision body follows the walking person (LiDAR can see it) ----------
+        Node(
+            package='task_robotics',
+            executable='worker_walker',
+            parameters=[{'use_sim_time': True, 'world_file': world_people_file}],
+            condition=IfCondition(people),
             output='screen'),
 
         Node(

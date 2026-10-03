@@ -1,0 +1,60 @@
+<!--
+  VARIANT FOR VALIDATION: global planner A*, local planner MPPI
+  (identical to warehouse_nav.xml except for the planner and controller names)
+
+  Behaviour tree for warehouse aisles (used by bt_navigator for "navigate to pose").
+
+  Read it top to bottom like a recipe:
+    MainTree = try to NAVIGATE; if that fails, run a RECOVERY and try again (up to 6 times).
+
+  NAVIGATE (PipelineSequence = both parts run together, the second starts once the first has a path):
+    1. every 0.5 s (2 Hz) ask the planner for a fresh path on the GLOBAL costmap. Re-planning this often
+       matters in aisles: the semantic layer adds/removes keep-out patches for people and for newly
+       mapped objects, so the old path can become blocked at any moment.
+    2. follow the newest path with the local controller (DWB, local costmap).
+    If planning or following fails once, clear the costmap that caused it and retry (a stale obstacle
+    is the usual reason), unless the goal was just changed.
+
+  RECOVERY (tried in this order, one per failure - RoundRobin):
+    a. Wait 3 s            a person or another vehicle crossing the aisle usually leaves by itself
+    b. clear both costmaps forget old obstacles, re-read the LiDAR
+    c. Back up 0.25 m       the only way out of a dead-end aisle or a corner; slow (0.05 m/s)
+    d. Spin 0.8 rad (45 deg) look around; kept small because the walls are close
+  The big 360 degree spin of the default tree is dropped on purpose: in a 0.65 m aisle it is risky.
+-->
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <RecoveryNode number_of_retries="6" name="NavigateRecovery">
+      <PipelineSequence name="NavigateWithReplanning">
+        <RateController hz="2.0">
+          <RecoveryNode number_of_retries="1" name="ComputePathToPose">
+            <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased"/>
+            <ReactiveFallback name="ComputePathToPoseRecoveryFallback">
+              <GoalUpdated/>
+              <ClearEntireCostmap name="ClearGlobalCostmap-Context" service_name="global_costmap/clear_entirely_global_costmap"/>
+            </ReactiveFallback>
+          </RecoveryNode>
+        </RateController>
+        <RecoveryNode number_of_retries="1" name="FollowPath">
+          <FollowPath path="{path}" controller_id="MPPI"/>
+          <ReactiveFallback name="FollowPathRecoveryFallback">
+            <GoalUpdated/>
+            <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap"/>
+          </ReactiveFallback>
+        </RecoveryNode>
+      </PipelineSequence>
+      <ReactiveFallback name="RecoveryFallback">
+        <GoalUpdated/>
+        <RoundRobin name="RecoveryActions">
+          <Wait wait_duration="3"/>
+          <Sequence name="ClearingActions">
+            <ClearEntireCostmap name="ClearLocalCostmap-Subtree" service_name="local_costmap/clear_entirely_local_costmap"/>
+            <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap"/>
+          </Sequence>
+          <BackUp backup_dist="0.25" backup_speed="0.05"/>
+          <Spin spin_dist="0.8"/>
+        </RoundRobin>
+      </ReactiveFallback>
+    </RecoveryNode>
+  </BehaviorTree>
+</root>

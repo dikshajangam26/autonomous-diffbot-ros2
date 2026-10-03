@@ -35,6 +35,7 @@ setup(
             'object_detector = task_robotics.object_detector:main',
             'object_slam = task_robotics.object_slam:main',
             'semantic_costmap = task_robotics.semantic_costmap:main',
+            'worker_walker = task_robotics.worker_walker:main',
         ],
     },
 )

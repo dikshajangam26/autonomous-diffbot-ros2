@@ -68,5 +68,17 @@ check(abs(x - 2.0) < 1e-9 and abs(y - 4.0) < 1e-9, 'transform_xy rotates then sh
 check(abs(so.yaw_from_quaternion(0, 0, math.sin(0.4), math.cos(0.4)) - 0.8) < 1e-9, 'quaternion -> yaw')
 check(len(so.pack_xyz(pts)) == 12 * len(pts), 'packed cloud is 12 bytes/point')
 
+# 6. ghost filter: a landmark needs a mapped surface within the radius (pallets exempt)
+occ_xy = np.array([[3.25, 1.0], [3.25, 1.05], [1.55, 0.0]])
+ghost = {'label': 'cardboard box', 'x': 2.60, 'y': 0.45}
+real = {'label': 'shelving rack', 'x': 3.15, 'y': 1.02}
+pallet = {'label': 'pallet', 'x': -3.0, 'y': 0.0}
+kept, rej = so.filter_supported([ghost, real, pallet], occ_xy, 0.20)
+check(real in kept and pallet in kept and rej == [ghost], 'ghost removed, real rack and pallet kept')
+check(so.filter_supported([ghost], np.zeros((0, 2)), 0.20)[0] == [ghost], 'no map yet -> landmark kept')
+g = [0] * 9
+g[4] = 100
+check(np.allclose(so.occupied_cells_xy(g, 3, 3, 0.1, 0.0, 0.0)[0], [0.15, 0.15]), 'grid -> occupied cell centres')
+
 print('\nALL PASSED' if not check.failed else '\nSOME FAILED')
 sys.exit(1 if check.failed else 0)

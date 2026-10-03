@@ -62,6 +62,36 @@ def landmark_points(landmarks, table=None, step=0.05):
     return np.vstack(chunks), discs
 
 
+def occupied_cells_xy(data, width, height, resolution, origin_x, origin_y, threshold=65):
+    """/map (OccupancyGrid fields) -> (N,2) world coordinates of the occupied cell centres."""
+    grid = np.asarray(data, dtype=np.int16).reshape(height, width)
+    iy, ix = np.nonzero(grid >= threshold)
+    return np.column_stack([origin_x + (ix + 0.5) * resolution,
+                            origin_y + (iy + 0.5) * resolution]).astype(np.float64)
+
+
+def has_support(x, y, occupied_xy, radius):
+    """True if a mapped (LiDAR) surface lies within `radius` of (x, y).
+    Racks and boxes are taller than the LiDAR plane, so a real one ALWAYS has mapped cells right at its face.
+    A landmark floating over free floor (a duplicate or a mislabelled sighting) has none."""
+    if len(occupied_xy) == 0:
+        return True                 # no map yet -> cannot judge, keep the landmark
+    d2 = (occupied_xy[:, 0] - x) ** 2 + (occupied_xy[:, 1] - y) ** 2
+    return float(d2.min()) <= radius * radius
+
+
+def filter_supported(landmarks, occupied_xy, radius, exempt=('pallet',)):
+    """Split landmarks into (kept, rejected). Pallets are only 15 cm high, so the LiDAR may not see them:
+    they are exempt from the test."""
+    kept, rejected = [], []
+    for lm in landmarks:
+        if lm['label'] in exempt or has_support(lm['x'], lm['y'], occupied_xy, radius):
+            kept.append(lm)
+        else:
+            rejected.append(lm)
+    return kept, rejected
+
+
 def load_landmarks_yaml(path):
     """Read the file saved by object_slam (maps/semantic_map.yaml) -> list of dicts."""
     with open(path) as f:

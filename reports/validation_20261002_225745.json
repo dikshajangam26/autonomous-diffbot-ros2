@@ -1,0 +1,506 @@
+{
+  "time": "20261002_225745",
+  "configs": [
+    "dijkstra_dwb"
+  ],
+  "map": {
+    "per_object": {
+      "wall_n": {
+        "kind": "wall",
+        "recall": 0.9053627760252366
+      },
+      "wall_s": {
+        "kind": "wall",
+        "recall": 1.0
+      },
+      "wall_e": {
+        "kind": "wall",
+        "recall": 1.0
+      },
+      "wall_w": {
+        "kind": "wall",
+        "recall": 1.0
+      },
+      "shelf_1": {
+        "kind": "shelving rack",
+        "recall": 0.6104651162790697
+      },
+      "shelf_2": {
+        "kind": "shelving rack",
+        "recall": 0.9244186046511628
+      },
+      "shelf_3": {
+        "kind": "shelving rack",
+        "recall": 0.6046511627906976
+      },
+      "box_1": {
+        "kind": "cardboard box",
+        "recall": 0.8690476190476191
+      },
+      "box_2": {
+        "kind": "cardboard box",
+        "recall": 0.85
+      },
+      "box_3": {
+        "kind": "cardboard box",
+        "recall": 0.6071428571428571
+      },
+      "box_4": {
+        "kind": "cardboard box",
+        "recall": 0.78
+      },
+      "box_5": {
+        "kind": "cardboard box",
+        "recall": 0.8676470588235294
+      }
+    },
+    "wall_recall": 0.9763406940063092,
+    "rack_recall": 0.7131782945736435,
+    "box_recall": 0.7947675070028011,
+    "precision": 0.756198347107438,
+    "map_cells": 1694
+  },
+  "landmarks": {
+    "rows": [
+      {
+        "label": "cardboard box",
+        "x": 0.23962938266506237,
+        "y": 2.503295765790915,
+        "nearest": "box_4",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.258406559418302,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": -1.706198234837035,
+        "y": 1.5150942682995896,
+        "nearest": "box_2",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.40925634163519115,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": -1.5432712186475293,
+        "y": -1.754181679971188,
+        "nearest": "box_3",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.006728781352470792,
+        "centre_dist": 0.3554381994616113,
+        "class_ok": true
+      },
+      {
+        "label": "shelving rack",
+        "x": 3.286090206643089,
+        "y": -2.23450507302443,
+        "nearest": "shelf_2",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.03609020664308904,
+        "centre_dist": 0.6960203258747711,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": 1.8940377413181475,
+        "y": -0.08060359270451946,
+        "nearest": "box_1",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.12385489876906315,
+        "class_ok": true
+      },
+      {
+        "label": "shelving rack",
+        "x": 2.879102914335367,
+        "y": 2.103936325568129,
+        "nearest": "shelf_1",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.0,
+        "centre_dist": 0.518235395886183,
+        "class_ok": true
+      },
+      {
+        "label": "shelving rack",
+        "x": 2.2198201688616908,
+        "y": -0.9440920177019446,
+        "nearest": "shelf_2",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.5301798311383092,
+        "centre_dist": 1.0192624049563033,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": 2.7513644192748656,
+        "y": 0.013275712684180568,
+        "nearest": "box_1",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.7013644192748656,
+        "centre_dist": 0.9514570420200142,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": -0.30797024663860656,
+        "y": 3.2599687341447345,
+        "nearest": "shelf_3",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.39202975336139345,
+        "centre_dist": 1.2002265154194238,
+        "class_ok": false
+      },
+      {
+        "label": "shelving rack",
+        "x": -0.33145749627057186,
+        "y": 2.373659377127358,
+        "nearest": "box_4",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.026340622872641883,
+        "centre_dist": 0.40136535649745814,
+        "class_ok": false
+      },
+      {
+        "label": "shelving rack",
+        "x": 1.861113233185589,
+        "y": 0.292693636398344,
+        "nearest": "box_1",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.042693636398344004,
+        "centre_dist": 0.2990056722847949,
+        "class_ok": false
+      },
+      {
+        "label": "shelving rack",
+        "x": 3.790946412250062,
+        "y": 0.16292777323945842,
+        "nearest": "shelf_1",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.8357535779378087,
+        "centre_dist": 1.6403575256564487,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": 4.010000172625462,
+        "y": -0.21874994527299801,
+        "nearest": "shelf_2",
+        "true_kind": "shelving rack",
+        "footprint_dist": 0.9567925002375778,
+        "centre_dist": 1.7111259633313995,
+        "class_ok": false
+      },
+      {
+        "label": "shelving rack",
+        "x": 5.062841025081784,
+        "y": -1.0907441001653084,
+        "nearest": "shelf_2",
+        "true_kind": "shelving rack",
+        "footprint_dist": 1.8128410250817844,
+        "centre_dist": 2.1247716739162605,
+        "class_ok": true
+      },
+      {
+        "label": "cardboard box",
+        "x": 0.5952978069014033,
+        "y": -1.8836432480872027,
+        "nearest": "box_5",
+        "true_kind": "cardboard box",
+        "footprint_dist": 0.7163721844341734,
+        "centre_dist": 0.9389423223156717,
+        "class_ok": true
+      }
+    ],
+    "position_ok": 0.6,
+    "class_ok": 0.7333333333333333,
+    "found": {
+      "shelf_1": true,
+      "shelf_2": true,
+      "shelf_3": false,
+      "box_1": true,
+      "box_2": true,
+      "box_3": true,
+      "box_4": true,
+      "box_5": false,
+      "pallet_1": false,
+      "pallet_2": false
+    },
+    "racks_found": 2,
+    "racks_total": 3
+  },
+  "planners": {
+    "A*": {
+      "paths": 7,
+      "mean_length": 3.314965726932292,
+      "mean_ms": 75.88355242790256
+    },
+    "Dijkstra": {
+      "paths": 7,
+      "mean_length": 3.3011922382584067,
+      "mean_ms": 77.32504528706029
+    }
+  },
+  "missions": {
+    "dijkstra_dwb": {
+      "legs": [
+        {
+          "label": "dijkstra_dwb wp1",
+          "goal": [
+            1.0,
+            1.2
+          ],
+          "status": "ABORTED",
+          "time": 0.009999999999990905,
+          "path_len": 0.0,
+          "err_map": 2.9646605250152933,
+          "err_truth": 4.698668540937501,
+          "min_range": 99.0,
+          "min_sep": 5.168797564065848
+        },
+        {
+          "label": "dijkstra_dwb wp2",
+          "goal": [
+            3.575,
+            1.6
+          ],
+          "status": "ABORTED",
+          "time": 0.010000000000104592,
+          "path_len": 0.0,
+          "err_map": 5.150195175351676,
+          "err_truth": 7.187833008149606,
+          "min_range": 99.0,
+          "min_sep": 5.257588298733324
+        },
+        {
+          "label": "dijkstra_dwb wp3",
+          "goal": [
+            3.575,
+            -1.6
+          ],
+          "status": "ABORTED",
+          "time": 0.0,
+          "path_len": 0.0,
+          "err_map": 4.344488813222752,
+          "err_truth": 6.650163259105615,
+          "min_range": 99.0,
+          "min_sep": 4.923148061565315
+        },
+        {
+          "label": "dijkstra_dwb wp4",
+          "goal": [
+            2.0,
+            -1.9
+          ],
+          "status": "ABORTED",
+          "time": 0.0,
+          "path_len": 0.0,
+          "err_map": 2.8395170545319472,
+          "err_truth": 5.114263973793932,
+          "min_range": 99.0,
+          "min_sep": 4.618913258441378
+        },
+        {
+          "label": "dijkstra_dwb wp5",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "ABORTED",
+          "time": 0.0,
+          "path_len": 0.0,
+          "err_map": 0.049609494640335726,
+          "err_truth": 2.2611625193008216,
+          "min_range": 99.0,
+          "min_sep": 4.3203272014954
+        },
+        {
+          "label": "dijkstra_dwb wp6",
+          "goal": [
+            -1.2,
+            2.5
+          ],
+          "status": "ABORTED",
+          "time": 0.009999999999990905,
+          "path_len": 0.0,
+          "err_map": 3.722226533112842,
+          "err_truth": 4.107798089636756,
+          "min_range": 99.0,
+          "min_sep": 4.019937198014798
+        },
+        {
+          "label": "dijkstra_dwb wp7",
+          "goal": [
+            0.0,
+            0.0
+          ],
+          "status": "ABORTED",
+          "time": 0.0,
+          "path_len": 0.0,
+          "err_map": 1.411260807913243,
+          "err_truth": 3.2741777672884758,
+          "min_range": 99.0,
+          "min_sep": null
+        }
+      ],
+      "summary": {
+        "legs": 7,
+        "succeeded": 0,
+        "success_rate": 0.0,
+        "mean_time": NaN,
+        "mean_path": NaN,
+        "mean_err_cm": NaN,
+        "max_err_cm": NaN,
+        "min_lidar": 99.0,
+        "min_sep": 4.019937198014798
+      }
+    }
+  },
+  "dynamic": {
+    "dijkstra_dwb": {
+      "legs": [
+        {
+          "label": "dijkstra_dwb cross 1",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "ABORTED",
+          "time": 1.25,
+          "path_len": 0.19085704173932058,
+          "err_map": 3.0572924914277695,
+          "err_truth": 5.319535062738967,
+          "min_range": 0.7562034726142883,
+          "min_sep": 2.9803465065333583
+        },
+        {
+          "label": "dijkstra_dwb cross 2",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "ABORTED",
+          "time": 0.4900000000000091,
+          "path_len": 0.10878383542425044,
+          "err_map": 0.4533897220140774,
+          "err_truth": 1.8492067458664367,
+          "min_range": 0.7630273103713989,
+          "min_sep": 3.3550637207858096
+        },
+        {
+          "label": "dijkstra_dwb cross 3",
+          "goal": [
+            2.4,
+            -0.5
+          ],
+          "status": "ABORTED",
+          "time": 0.4899999999998954,
+          "path_len": 0.04780243651995776,
+          "err_map": 2.7279979320798846,
+          "err_truth": 4.987748739851879,
+          "min_range": 0.7270338535308838,
+          "min_sep": 3.765402739188381
+        },
+        {
+          "label": "dijkstra_dwb cross 4",
+          "goal": [
+            -0.8,
+            -1.2
+          ],
+          "status": "ABORTED",
+          "time": 0.5,
+          "path_len": 0.043839638230132774,
+          "err_map": 0.738279241027834,
+          "err_truth": 1.5755210366910675,
+          "min_range": 0.6796056628227234,
+          "min_sep": 4.207928776607397
+        }
+      ],
+      "summary": {
+        "legs": 4,
+        "succeeded": 0,
+        "success_rate": 0.0,
+        "mean_time": NaN,
+        "mean_path": NaN,
+        "mean_err_cm": NaN,
+        "max_err_cm": NaN,
+        "min_lidar": 0.6796056628227234,
+        "min_sep": 2.9803465065333583
+      }
+    }
+  },
+  "checks": [
+    {
+      "key": "wall_recall",
+      "what": "SLAM map: share of wall surface that is mapped",
+      "target": 0.85,
+      "value": 0.9763406940063092,
+      "pass": true
+    },
+    {
+      "key": "rack_recall",
+      "what": "SLAM map: average share of rack surface that is mapped",
+      "target": 0.4,
+      "value": 0.7131782945736435,
+      "pass": true
+    },
+    {
+      "key": "precision",
+      "what": "SLAM map: share of drawn cells that are real surface",
+      "target": 0.85,
+      "value": 0.756198347107438,
+      "pass": false
+    },
+    {
+      "key": "landmark_position",
+      "what": "Semantic map: landmarks within 0.5 m of a real object",
+      "target": 0.75,
+      "value": 0.6,
+      "pass": false
+    },
+    {
+      "key": "racks_found",
+      "what": "Semantic map: racks found (of 3), right class, within 0.6 m",
+      "target": 2,
+      "value": 2,
+      "pass": true
+    },
+    {
+      "key": "success",
+      "what": "Missions: legs that reached the goal",
+      "target": 0.9,
+      "value": 0.0,
+      "pass": false
+    },
+    {
+      "key": "goal_error_cm",
+      "what": "Missions: worst final error (cm, map frame)",
+      "target": 15.0,
+      "value": NaN,
+      "pass": false
+    },
+    {
+      "key": "clearance",
+      "what": "Missions: closest LiDAR return (m) - robot half-width is 0.12",
+      "target": 0.16,
+      "value": 99.0,
+      "pass": true
+    },
+    {
+      "key": "dyn_success",
+      "what": "Dynamic: legs that reached the goal",
+      "target": 0.75,
+      "value": 0.0,
+      "pass": false
+    },
+    {
+      "key": "separation",
+      "what": "Dynamic: closest distance to the walking person (m) - touching is 0.37-0.43",
+      "target": 0.45,
+      "value": 2.9803465065333583,
+      "pass": true
+    }
+  ],
+  "overall": false
+}

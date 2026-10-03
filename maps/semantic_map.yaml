@@ -2,46 +2,307 @@ frame: map
 landmarks:
 - id: 0
   label: shelving rack
-  x: 2.844
-  y: 1.2
+  x: 2.917
+  y: 1.588
   size:
-  - 0.1
-  - 0.1
-  - 1.14
-  observations: 177
+  - 0.32
+  - 0.36
+  - 0.9
+  observations: 20
 - id: 1
-  label: shelving rack
-  x: -1.73
-  y: 3.148
+  label: cardboard box
+  x: 0.389
+  y: 2.425
   size:
-  - 0.34
-  - 0.88
-  - 0.62
-  observations: 5
+  - 0.36
+  - 0.19
+  - 0.5
+  observations: 50
 - id: 2
   label: cardboard box
-  x: -0.278
-  y: 2.457
+  x: -1.716
+  y: 1.544
   size:
-  - 0.11
-  - 0.13
-  - 0.46
-  observations: 19
+  - 0.36
+  - 0.45
+  - 0.61
+  observations: 68
 - id: 3
   label: cardboard box
-  x: -1.706
-  y: 1.512
+  x: -1.524
+  y: -1.738
   size:
-  - 0.12
-  - 0.08
-  - 0.61
-  observations: 22
+  - 0.28
+  - 0.22
+  - 0.35
+  observations: 45
 - id: 4
   label: cardboard box
-  x: 1.565
-  y: -0.207
+  x: 1.853
+  y: -0.08
+  size:
+  - 0.23
+  - 0.18
+  - 0.32
+  observations: 45
+- id: 5
+  label: cardboard box
+  x: -0.389
+  y: 2.377
+  size:
+  - 0.08
+  - 0.07
+  - 0.44
+  observations: 18
+- id: 6
+  label: shelving rack
+  x: 3.059
+  y: -1.046
+  size:
+  - 0.32
+  - 0.59
+  - 0.93
+  observations: 28
+- id: 7
+  label: cardboard box
+  x: 2.65
+  y: -0.214
+  size:
+  - 0.15
+  - 0.12
+  - 0.31
+  observations: 34
+- id: 8
+  label: shelving rack
+  x: -1.879
+  y: 3.117
+  size:
+  - 0.15
+  - 0.93
+  - 0.5
+  observations: 3
+- id: 9
+  label: shelving rack
+  x: 3.361
+  y: 0.053
+  size:
+  - 0.08
+  - 0.11
+  - 0.37
+  observations: 95
+- id: 10
+  label: shelving rack
+  x: 4.891
+  y: -0.951
+  size:
+  - 0.23
+  - 0.36
+  - 0.72
+  observations: 64
+- id: 11
+  label: cardboard box
+  x: 3.827
+  y: -0.095
+  size:
+  - 0.25
+  - 0.29
+  - 0.3
+  observations: 175
+- id: 12
+  label: shelving rack
+  x: 4.591
+  y: 3.932
+  size:
+  - 0.67
+  - 0.53
+  - 1.6
+  observations: 15
+- id: 13
+  label: shelving rack
+  x: 5.945
+  y: 0.048
+  size:
+  - 0.31
+  - 0.78
+  - 1.03
+  observations: 21
+- id: 14
+  label: cardboard box
+  x: 0.53
+  y: -1.794
   size:
   - 0.19
   - 0.17
+  - 0.28
+  observations: 32
+- id: 15
+  label: shelving rack
+  x: 4.898
+  y: 1.588
+  size:
+  - 0.35
+  - 0.6
+  - 0.63
+  observations: 38
+- id: 16
+  label: cardboard box
+  x: 1.788
+  y: 2.41
+  size:
+  - 0.21
+  - 0.26
+  - 0.43
+  observations: 35
+- id: 17
+  label: shelving rack
+  x: 0.972
+  y: 3.201
+  size:
+  - 0.21
+  - 0.46
+  - 0.99
+  observations: 27
+- id: 18
+  label: shelving rack
+  x: 4.165
+  y: -3.899
+  size:
+  - 0.73
+  - 0.68
+  - 1.44
+  observations: 11
+- id: 19
+  label: cardboard box
+  x: -0.684
+  y: 1.472
+  size:
+  - 0.61
+  - 0.67
+  - 0.62
+  observations: 25
+- id: 20
+  label: cardboard box
+  x: 2.026
+  y: -2.566
+  size:
+  - 0.18
+  - 0.11
+  - 0.81
+  observations: 11
+- id: 21
+  label: cardboard box
+  x: -0.67
+  y: -1.758
+  size:
+  - 0.25
+  - 0.19
+  - 0.34
+  observations: 13
+- id: 22
+  label: cardboard box
+  x: 4.945
+  y: -0.71
+  size:
+  - 0.44
+  - 0.41
+  - 0.27
+  observations: 4
+- id: 23
+  label: cardboard box
+  x: 0.974
+  y: -1.823
+  size:
+  - 0.1
   - 0.15
-  observations: 669
+  - 0.39
+  observations: 6
+- id: 24
+  label: cardboard box
+  x: 3.079
+  y: -2.715
+  size:
+  - 0.25
+  - 0.14
+  - 0.85
+  observations: 8
+- id: 25
+  label: cardboard box
+  x: 6.017
+  y: -0.004
+  size:
+  - 0.37
+  - 0.45
+  - 0.37
+  observations: 474
+- id: 26
+  label: shelving rack
+  x: 7.081
+  y: -1.071
+  size:
+  - 0.39
+  - 1.03
+  - 0.68
+  observations: 67
+- id: 27
+  label: cardboard box
+  x: 3.89
+  y: 2.55
+  size:
+  - 0.34
+  - 0.46
+  - 0.4
+  observations: 67
+- id: 28
+  label: cardboard box
+  x: 2.214
+  y: 1.66
+  size:
+  - 0.36
+  - 0.22
+  - 0.27
+  observations: 11
+- id: 29
+  label: shelving rack
+  x: 6.114
+  y: -2.572
+  size:
+  - 0.48
+  - 0.37
+  - 1.38
+  observations: 12
+- id: 30
+  label: shelving rack
+  x: 7.071
+  y: 1.134
+  size:
+  - 0.24
+  - 0.34
+  - 1.18
+  observations: 116
+- id: 31
+  label: cardboard box
+  x: 2.583
+  y: -1.893
+  size:
+  - 0.31
+  - 0.5
+  - 0.46
+  observations: 5
+- id: 32
+  label: shelving rack
+  x: 0.967
+  y: -0.396
+  size:
+  - 0.4
+  - 0.27
+  - 0.43
+  observations: 8
+- id: 33
+  label: cardboard box
+  x: 5.246
+  y: 3.955
+  size:
+  - 0.35
+  - 0.28
+  - 0.26
+  observations: 3
